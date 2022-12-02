@@ -1,19 +1,22 @@
 from django.views.decorators.csrf import csrf_exempt
-
 from django.contrib.auth import authenticate, login, logout
 from .models import User
-import json
 from django.http import HttpResponse, JsonResponse
+from rest_framework.decorators import api_view
 
 
+def index(request):
 
-@csrf_exempt
+    homepage = open('static/index.html').read()
+
+    return HttpResponse(homepage)
+
+
+@api_view(['POST'])
 def signup(request):
     try:
-        # print(request.params)
-        body = json.loads(request.body)
+        body = request.data
         print(body)
-        # username = body['username']
         data = {
             'username': body['email'],
             'email': body['email'],
@@ -23,57 +26,72 @@ def signup(request):
         }
 
         User.objects.create_user(**data)
+
+        return JsonResponse({'success':True})
+
     except Exception as e:
-        print('oops!')
-        print(str(e))
-    return HttpResponse('hi')
 
-@csrf_exempt
+        return JsonResponse({'success':False})
+
+
+@api_view(['POST'])
 def log_in(request):
-    body = json.loads(request.body)
-    username = body['username']
-    password = body['password']
-    print(body)
-    
-    # remember, we told django that our email field is serving as the 'username' 
-    # this doesn't start a login session, it just tells us which user from the db belongs to these credentials
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            try:
-                login(request, user)
-            except Exception as e:
-                print('oops!')
-                print(str(e))
-            return HttpResponse('Authorized', status=201)
-            # Redirect to a success page.
-        else:
-            return HttpResponse('not active!')
-            # Return a 'disabled account' error message
-    else:
-        return HttpResponse('no user!')
-        # Return an 'invalid login' error message.
+    try:
+        body = request.data
+        username = body['username']
+        password = body['password']
+        user = authenticate(username=username, password=password)
 
-@csrf_exempt
+        if user is not None:
+            if user.is_active:
+                try:
+                    login(request, user)
+                    return JsonResponse({'login':True})
+                except Exception as e:
+                    print('oops!')
+                    print(str(e))
+                    return JsonResponse('login',False)
+                # Redirect to a success page.
+            else:
+                return JsonResponse({'active':False})
+                # Return a 'disabled account' error message
+        else:
+            return JsonResponse({'user':False})
+            # Return an 'invalid login' error message.
+    except Exception as e:
+        print(e)
+        return HttpResponse('No user by this email')
+        
+
+@api_view(['POST'])
 def log_out(request):
+    print(request)
     logout(request)
     return HttpResponse('Logged you out!')
 
-@csrf_exempt
-def user_profile(request):
-    if request.user.is_authenticated:
-        return JsonResponse({
-            'email': request.user.email,
-            'first_name': request.user.first_name
-        })
-    else:
-        return JsonResponse({'user':None})
 
-def check_session(request):
-    if request.user.is_authenticated:
-        return JsonResponse({
-            'user': request.user.email
-        })
-        # return HttpResponse('Authorized', status=201)
-    else:
-        return HttpResponse('Unauthorized', status=401)
+@api_view(['GET'])
+def user_profile(request):
+    # return HttpResponse({request})
+    try:
+        if request.user:
+            if request.user.is_authenticated:
+                return JsonResponse({
+                    'email': request.user.email,
+                    'first_name': request.user.first_name
+                })
+            else:
+                return JsonResponse({'user':None})
+    except Exception as e:
+        print(e)
+
+        return JsonResponse({'authenticated':False})
+
+# def check_session(request):
+#     if request.user.is_authenticated:
+#         return JsonResponse({
+#             'user': request.user.email
+#         })
+#         # return HttpResponse('Authorized', status=201)
+#     else:
+#         return HttpResponse('Unauthorized', status=401)
