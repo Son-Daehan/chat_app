@@ -61,24 +61,24 @@ def log_in(request):
                 except Exception as e:
                     # print('oops!')
                     # print(str(e))
-                    return JsonResponse({'login':False})
+                    return JsonResponse({'login':False}, status=401)
                 # Redirect to a success page.
             else:
-                return JsonResponse({'active':False})
+                return JsonResponse({'active':False}, status=401)
                 # Return a 'disabled account' error message
         else:
-            return JsonResponse({'user':False})
+            return JsonResponse({'user':False}, status=401)
             # Return an 'invalid login' error message.
     except Exception as e:
         print(e)
-        return HttpResponse('No user by this email')
+        return JsonResponse({'success':False}, status=401)
         
 
 @api_view(['POST'])
 def log_out(request):
     print(request)
     logout(request)
-    return HttpResponse('Logged you out!')
+    return JsonResponse({'success':True})
 
 
 @api_view(['GET'])

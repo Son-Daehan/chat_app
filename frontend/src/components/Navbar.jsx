@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { signOut } from "../redux/reducers/AuthSlice";
 
 const Navbar = () => {
 	// const logout = async () => {
@@ -10,8 +11,10 @@ const Navbar = () => {
 
 	const dispatch = useDispatch();
 
-	const logout = () => {
-		dispatch(logout);
+	const logout = async () => {
+		const response = await axios.post("/account/log_out/");
+		console.log(response.data);
+		dispatch(signOut());
 	};
 
 	return (
