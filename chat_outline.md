@@ -1,4 +1,4 @@
-- outline
+- OUTLINE FOR THE CHAT FUNCTIONALITIES
 
 Backend
 
@@ -26,7 +26,7 @@ Backend
     - xx - hold chat logs
     - make chat logs loadable into the front end
 
-Frontnend
+Frontend
 
 - Create a proxy to avoid CORS/CSRF
 - Allow for front and back end to communicate on a single port
@@ -35,11 +35,19 @@ Frontnend
 - xx - Register
   - xx - Send a post request to backend `/api/register`
 - xx - Logout
+
   - xx - Send a post request to backend `/api/log_out`
+
+- Chat
+
+  - should the chat be able to pop out while roaming the site??
+
 - Chat log
   - xx - send chat to redis
   - retreive chat log from redis if the user wants to load the history
     - or should i have the log history persist...
+    - current chat session history should persist through refresh
+    - or should chat persist through a 24 hour time limit?
 
 State Management
 

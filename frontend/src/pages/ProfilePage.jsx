@@ -5,7 +5,15 @@ const ProfilePage = () => {
 		(state) => state.user
 	);
 
-	return <div>{userInfo && <div>yes</div>}</div>;
+	return (
+		<div>
+			{userInfo && (
+				<div>
+					{userInfo.email} {userInfo.firstName} {userInfo.lastName}
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default ProfilePage;
