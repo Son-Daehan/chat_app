@@ -13,6 +13,7 @@ Backend
   - xx - Create a http route to the chat room
   - xx - Create a http view for the chat room
 - Have the back
+
   - xx - Handle receiver
   - xx - Handle send
   - xx - Handle connect
@@ -20,6 +21,10 @@ Backend
   - xx - Handle rejection
   - xx - Adjust the settings
   - xx - Point backend to the channel layer pointing to a port (6379)
+
+  - Redis
+    - xx - hold chat logs
+    - make chat logs loadable into the front end
 
 Frontnend
 
@@ -31,11 +36,10 @@ Frontnend
   - xx - Send a post request to backend `/api/register`
 - xx - Logout
   - xx - Send a post request to backend `/api/log_out`
-
-Client
-
-- Be able to see chat history
-- Have Redis store chat history and send it to the client
+- Chat log
+  - xx - send chat to redis
+  - retreive chat log from redis if the user wants to load the history
+    - or should i have the log history persist...
 
 State Management
 
