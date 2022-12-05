@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const ChatPage = ({ user }) => {
 	// TO GET THE ROOM NAME
 	const { room } = useParams();
 	const [text, setText] = useState("");
+
+	const { userInfo } = useSelector((state) => state.user);
 
 	const chatSocket = new WebSocket(
 		// "ws://" + window.location.host + "/ws/chat/" + room + "/"
@@ -19,10 +23,18 @@ const ChatPage = ({ user }) => {
 		console.error("Chat socket closed unexpectedly");
 	};
 
-	const sendText = (event) => {
+	const sendText = async (event) => {
+		const data = {
+			room_name: room,
+			user: userInfo.email,
+			message: text,
+		};
+
+		const response = await axios.post("/chat/chat_log/", data);
+		console.log(response);
 		chatSocket.send(
 			JSON.stringify({
-				message: `${user.user}: ${text}`,
+				message: `${userInfo.email}: ${text}`,
 			})
 		);
 	};
@@ -33,7 +45,7 @@ const ChatPage = ({ user }) => {
 			console.log(data);
 			document.querySelector("#chat-log").value += data.message + "\n";
 		};
-		console.log(user);
+		console.log(userInfo);
 	}, []);
 
 	return (

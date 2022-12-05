@@ -57,7 +57,7 @@ const AuthSlice = createSlice({
 			state.loading = false;
 			// THE RESPONSE SENT FROM BACKEND IS AN OBJECT WITH PROPERTIES?? WONT SET TO STATE
 			const newUserInfo = {
-				email: payload.user_info.username,
+				email: payload.user_info.email,
 				firstName: payload.user_info.first_name,
 				lastName: payload.user_info.last_name,
 			};

@@ -2,6 +2,7 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
+# from django.http import JsonResponse
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -13,6 +14,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         await self.accept()
+
+        await self.send(text_data=json.dumps({
+            'type':'connection_established',
+            'message':'You are now connected!'
+        }))
+
+        # return JsonResponse({'success': True})
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -33,4 +41,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps({
+            'type':'chat_message',
+            "message": message
+            }))

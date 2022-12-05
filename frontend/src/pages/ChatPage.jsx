@@ -13,7 +13,10 @@ const ChatPage = () => {
 			<title>Chat Rooms</title>
 			<p>What chat room would you like to enter?</p>
 			<input type="text" onChange={(event) => setRoom(event.target.value)} />
-			<Link to={`/chat/${room}`}> Room </Link>
+			<Link to={`/chat/${room}`} onClick={ChatPage}>
+				{" "}
+				Room{" "}
+			</Link>
 		</div>
 	);
 };

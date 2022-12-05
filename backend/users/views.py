@@ -5,8 +5,6 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from .serializers import UserSerializer
 
-
-
 def index(request):
 
     homepage = open('static/index.html').read()

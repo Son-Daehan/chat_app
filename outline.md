@@ -25,12 +25,12 @@ Frontnend
 
 - Create a proxy to avoid CORS/CSRF
 - Allow for front and back end to communicate on a single port
-- Login
-  - Send a post request to backend `/api/log_in`
-- Register
-  - Send a post request to backend `/api/register`
-- Logout
-  - Send a post request to backend `/api/log_out`
+- xx - Login
+  - xx - Send a post request to backend `/api/log_in`
+- xx - Register
+  - xx - Send a post request to backend `/api/register`
+- xx - Logout
+  - xx - Send a post request to backend `/api/log_out`
 
 Client
 
