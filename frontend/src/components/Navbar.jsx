@@ -1,10 +1,17 @@
 import axios from "axios";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-	const logout = async () => {
-		await axios.post("/account/log_out/");
+	// const logout = async () => {
+	// 	await axios.post("/account/log_out/");
+	// };
+
+	const dispatch = useDispatch();
+
+	const logout = () => {
+		dispatch(logout);
 	};
 
 	return (

@@ -1,5 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../redux/reducers/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
 	const [firstName, setFirstName] = useState("");
@@ -7,23 +10,30 @@ const RegisterPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const { loading, error, success, userInfo } = useSelector(
+		(state) => state.user
+	);
+
 	axios.defaults.xsrfCookieName = "csrftoken";
 	axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-	const createUser = async (event) => {
-		event.preventDefault();
-
-		const data = {
-			first_name: firstName,
-			last_name: lastName,
-			email: email,
-			password: password,
-		};
-		console.log(data);
-		await axios.post("/account/register/", data);
-
-		console.log(data);
+	const dispatch = useDispatch();
+	const createUser = () => {
+		dispatch(signUp({ firstName, lastName, email, password }));
 	};
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		// redirect authenticated user to profile screen
+		if (userInfo) {
+			navigate("/account/profile");
+		}
+		// redirect user to login page if registration was successful
+		if (success) {
+			navigate("/account/login");
+		}
+	}, [navigate, userInfo, success]);
 
 	return (
 		<div>
@@ -47,7 +57,10 @@ const RegisterPage = () => {
 				placeholder="password"
 				onChange={(event) => setPassword(event.target.value)}
 			/>
-			<button onClick={createUser}>create a user</button>
+			<button onClick={createUser} disabled={loading}>
+				create a user
+			</button>
+			{error && <div>{error}</div>}
 		</div>
 	);
 };

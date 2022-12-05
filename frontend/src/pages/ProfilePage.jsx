@@ -1,19 +1,11 @@
-import React from "react";
-import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
-	// const [user, setUser] = useState("");
+	const { loading, error, success, userInfo } = useSelector(
+		(state) => state.user
+	);
 
-	// useEffect(async () => {
-	// 	const response = await axios.get("/account/user_profile/");
-	// 	console.log(response);
-	// 	// console.log(response.data.email);
-	// 	// setUser(response.data.email);
-	// }, []);
-
-	return <div></div>;
+	return <div>{!userInfo && <div>yes</div>}</div>;
 };
 
 export default ProfilePage;

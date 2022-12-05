@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from .models import User
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
+from .serializers import UserSerializer
+
 
 
 def index(request):
@@ -21,11 +23,16 @@ def signup(request):
             'username': body['email'],
             'email': body['email'],
             'password': body['password'],
-            'first_name': body['first_name'],
-            'last_name': body['last_name'],
+            'first_name': body['firstName'],
+            'last_name': body['lastName'],
         }
 
-        User.objects.create_user(**data)
+        try: 
+            User.objects.create_user(**data)
+
+        except:
+            return JsonResponse({'status':'false', 'message': 'there is def something wrong'}, status=403)
+
 
         return JsonResponse({'success':True})
 
@@ -40,17 +47,21 @@ def log_in(request):
         body = request.data
         username = body['username']
         password = body['password']
+
         user = authenticate(username=username, password=password)
+
 
         if user is not None:
             if user.is_active:
                 try:
                     login(request, user)
-                    return JsonResponse({'login':True})
+
+                    serializedUser = UserSerializer(user)
+                    return JsonResponse({'user_info': serializedUser.data})
                 except Exception as e:
-                    print('oops!')
-                    print(str(e))
-                    return JsonResponse('login',False)
+                    # print('oops!')
+                    # print(str(e))
+                    return JsonResponse({'login':False})
                 # Redirect to a success page.
             else:
                 return JsonResponse({'active':False})
