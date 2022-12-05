@@ -35,17 +35,20 @@ Frontnend
 Client
 
 - Be able to see chat history
-- Have Redux store chat history and send it to the client
+- Have Redis store chat history and send it to the client
 
 State Management
 
-- User
+- xx - User
 - Authenticated/Logged-in?
-- Registration
-- First Name
-- Last Name
-- Email
-- Password
+- xx - Registration
+- xx - First Name
+- xx - Last Name
+- xx - Email
+- xx - Password
+
+use redux for these or just pull from redis...
+
 - Chat Input Text
 - Chat Log
 - User text input
