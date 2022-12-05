@@ -1,11 +1,18 @@
 Chat Application + Travel Blog/Information
 
 1. Connect and chat with people around the world.
+
+- chat application will be based on region or country and anyone can connect to it
+
 2. Post blogs with amazing places to visit!
-   - Chat will be based on areas
-3. Be able to upload photos for the blogs
-4. Travel information
-5. Weather information
+
+- Chat will be based on areas
+
+- Be able to upload photos for the blogs
+
+4. Travel information (api)
+
+5. Weather information (api)
 
 CRUD
 
@@ -13,6 +20,9 @@ CRUD
   - Full CRUD functionality
 - Blog
   - Full CRUD functionality
+  - possibly comments
+- Chat log
+  - Get and Post to Redis
 
 API
 
