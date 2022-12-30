@@ -6,6 +6,7 @@ const initialState = {
 	error: null,
 	chatRoom: null,
 	connected: false,
+	chatSocket: null,
 };
 
 // export const connectChannel = createAsyncThunk(
@@ -25,6 +26,10 @@ const ChatConnectSlice = createSlice({
 	reducers: {
 		connectChatRoom: (state) => {
 			state.chatRoom = "lobby";
+		},
+		createChatSocket: (state, event) => {
+			console.log(event);
+			state.chatSocket = event.type;
 		},
 	},
 	// extraReducers: {
@@ -70,5 +75,5 @@ const ChatConnectSlice = createSlice({
 	// },
 });
 
-export const { connectChatRoom } = ChatConnectSlice.actions;
+export const { connectChatRoom, createChatSocket } = ChatConnectSlice.actions;
 export default ChatConnectSlice.reducer;

@@ -21,7 +21,7 @@ const LoginPage = () => {
 	useEffect(() => {
 		// redirect authenticated user to profile screen
 		if (userInfo) {
-			navigate("/account/profile");
+			navigate("/api/account/profile");
 		}
 	}, [navigate, userInfo]);
 
