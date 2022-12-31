@@ -21,7 +21,8 @@ class User(AbstractUser):
 
 class Channel(models.Model):
     channel_name = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='channels')
+    channel_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='channels')
+    user = models.ManyToManyField(User, through='UserChannel')
 
 class UserChannel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_channels')
@@ -29,7 +30,13 @@ class UserChannel(models.Model):
 
 class Organization(models.Model):
     organization_name = models.CharField(max_length=100)
+    organization_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organizations')
 
 class UserOrganization(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='user_organizations')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_organizations')
+
+class OrganizationChannel(models.Model):
+    channel_name = models.CharField(max_length=100)
+    is_private = models.BooleanField(default=False)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='organization_channels')

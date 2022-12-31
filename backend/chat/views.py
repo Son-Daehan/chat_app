@@ -10,18 +10,19 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from .models import Channel
+from .models import UserChannel, Organization, UserOrganization, OrganizationChannel
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from .serializers.serializers import UserSerializer
 import json
-from .serializers.channel_serializer import ChannelSerializer
+from .serializers.channel_serializer import ChannelSerializer, UserOrganizationChannelSerializer
+from .serializers.organization_serializer import OrganizationSerializer, UserOrganizationSerializer, OrganizationChannelSerializer
 redis_instance = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0)
 
 @api_view(['POST'])
 def signup(request):
     try:
         body = request.data
-        print(body)
         data = {
             'username': body['email'],
             'email': body['email'],
@@ -53,7 +54,6 @@ def log_in(request):
 
         user = authenticate(username=username, password=password)
 
-
         if user is not None:
             if user.is_active:
                 try:
@@ -79,7 +79,6 @@ def log_in(request):
 
 @api_view(['POST'])
 def log_out(request):
-    print(request)
     logout(request)
     return JsonResponse({'success':True})
 
@@ -97,7 +96,6 @@ def user_profile(request):
             else:
                 return JsonResponse({'user':None})
     except Exception as e:
-        print(e)
 
         return JsonResponse({'authenticated':False})
 
@@ -105,7 +103,7 @@ def user_profile(request):
 @api_view(['GET'])
 def user_channels(request):
     if request.method == 'GET':
-        channels = Channel.objects.filter(user=request.user)
+        channels = Channel.objects.filter(channel_owner=request.user)
         serialized_channels = ChannelSerializer(channels, many=True)
 
         # print(serialized_channels.data)
@@ -122,11 +120,10 @@ def create_channel(request):
         username = data['username']
 
         user = User.objects.get(email=username)
-        print(user)
 
         new_channel_info = {
             'channel_name':channel_name,
-            'user':user,
+            'channel_owner':user,
         }
 
         new_channel = Channel(**new_channel_info)
@@ -135,11 +132,42 @@ def create_channel(request):
 
         return JsonResponse({'success':True})
 
+@api_view(['POST'])
+def channel_add_user(request):
+    if request.method == 'POST':
+        data = request.data
+
+        channel_owner = request.user
+    
+        user = User.objects.get(email=data['username'])
+        channel = Channel.objects.get(channel_owner=request.user, channel_name=data['channel'])
+
+        new_user_to_channel_info = {
+            'user':user,
+            'channel':channel
+        }
+
+        new_user_to_channel = UserChannel(**new_user_to_channel_info)
+        new_user_to_channel.save()
+
+        return JsonResponse({'success':True})
+
+@api_view(['GET'])
+def user_organization_channels(request):
+    if request.method == 'GET':
+        channels = UserChannel.objects.filter(user=request.user)
+        # serialized_channels = ChannelSerializer(channels, many=True)
+        serialized_channels = UserOrganizationChannelSerializer(channels, many=True)
+
+
+        # print(serialized_channels.data)
+        return JsonResponse({'data':serialized_channels.data})
+        # return JsonResponse({'channels':serialized_channels.data})
+
 
 @api_view(['GET', 'POST'])
 def manage_chat_log(request):
     if request.method == 'GET':
-        print(request.data)
         response = redis_instance.lrange('cat_log_2', 0, -1)
 
         data = []
@@ -154,11 +182,9 @@ def manage_chat_log(request):
     elif request.method == 'POST':
 
         response = request.data
-        print(response)
         room_name = response['room_name']
         user = response['user']
         message = response['message']
-        print(response)
 
         redis_instance.lpush(room_name, json.dumps({'user':user, 'msg':message}))
 
@@ -179,3 +205,86 @@ def chat_log(request, room_name):
         # print(data[::-1])
 
         return JsonResponse({'data':data[::-1]},status=200)
+
+
+
+@api_view(['GET','POST'])
+def manage_organization(request):
+    if request.method == 'POST':
+        data = request.data
+
+        new_organization_info = {
+            'organization_name':data['organizationName'],
+            'organization_owner':request.user
+        }
+        new_organization = Organization(**new_organization_info)
+        new_organization.save()
+
+        user_to_organization_info = {
+            'organization': new_organization,
+            'user': request.user
+        }
+
+        user_to_organization = UserOrganization(**user_to_organization_info)
+
+        user_to_organization.save()
+
+        return JsonResponse({'success':True})
+
+    if request.method == 'GET':
+        organizations = UserOrganization.objects.filter(user=request.user)
+
+        serialized_organizations = UserOrganizationSerializer(organizations, many=True)
+
+        print(serialized_organizations.data)
+
+        return JsonResponse({'data':serialized_organizations.data})
+
+@api_view(['POST'])
+def manage_organization_user(request):
+    if request.method == 'POST':
+        data = request.data
+
+        organization = Organization.objects.get(id=data['organizationID'])
+        user = User.objects.get(email=data['username'])
+
+        new_organization_user_info = {
+            'organization': organization,
+            'user': user
+        }
+
+        new_organization_user = UserOrganization(**new_organization_user_info)
+
+        new_organization_user.save()
+
+        return JsonResponse({'data':True})
+
+    
+@api_view(['GET','POST'])
+def manage_organization_channel(request, organization_id):
+    if request.method == 'GET':
+        organization = Organization.objects.get(id=organization_id)
+        organization_channels = OrganizationChannel.objects.filter(organization=organization)
+
+        serialized_organization_channels = OrganizationChannelSerializer(organization_channels, many=True)
+        # print(serialized_organization_channels.data)
+
+        return JsonResponse({'data':serialized_organization_channels.data})
+
+
+    if request.method == 'POST':
+        data = request.data
+
+        organization = Organization.objects.get(id=organization_id)
+
+        new_organization_channel_info = {
+            'channel_name':data['channelName'],
+            'is_private': False,
+            'organization':organization,
+        }
+
+        new_organization_channel = OrganizationChannel(**new_organization_channel_info)
+
+        new_organization_channel.save()
+
+        return JsonResponse({'success':True})

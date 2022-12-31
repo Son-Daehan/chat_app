@@ -31,12 +31,13 @@ const ChatFrame = ({ channelSocket, channelName }) => {
 		const msg = data.message;
 
 		setMessages((prevState) => [...prevState, { user: user, message: msg }]);
-		// console.log(messages);
+		console.log(messages);
 	};
 
 	const handleRetreiveChannelLog = async () => {
-		const response = await axios.get(`/api/chat/chat_log/${channelName}`);
+		const response = await axios.get(`/api/chat/chat_log/${channelName}/`);
 		const data = response.data.data;
+		console.log(data);
 		// console.log(data);
 
 		// const message_data = {

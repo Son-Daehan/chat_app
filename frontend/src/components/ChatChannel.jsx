@@ -36,7 +36,9 @@ const ChatChannel = ({
 
 	return (
 		<div onClick={handleCreateSocket}>
-			<h1>{channelName}</h1>
+			<h5>
+				<em>{channelName}</em>
+			</h5>
 			<button onClick={handleCloseChannel}>Close Channel</button>
 		</div>
 	);

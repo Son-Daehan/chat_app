@@ -27,11 +27,11 @@ const RegisterPage = () => {
 	useEffect(() => {
 		// redirect authenticated user to profile screen
 		if (userInfo) {
-			navigate("/api/account/profile");
+			navigate("/profile");
 		}
 		// redirect user to login page if registration was successful
 		if (success) {
-			navigate("/api/account/login");
+			navigate("/login");
 		}
 	}, [navigate, userInfo, success]);
 
