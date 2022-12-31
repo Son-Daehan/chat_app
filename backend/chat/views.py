@@ -17,8 +17,10 @@ from .serializers.serializers import UserSerializer
 import json
 from .serializers.channel_serializer import ChannelSerializer, UserOrganizationChannelSerializer
 from .serializers.organization_serializer import OrganizationSerializer, UserOrganizationSerializer, OrganizationChannelSerializer
+from django.views.decorators.csrf import csrf_exempt
 redis_instance = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0)
 
+@csrf_exempt
 @api_view(['POST'])
 def signup(request):
     try:
@@ -44,7 +46,7 @@ def signup(request):
 
         return JsonResponse({'success':False})
 
-
+@csrf_exempt
 @api_view(['POST'])
 def log_in(request):
     try:
@@ -76,13 +78,13 @@ def log_in(request):
         print(e)
         return JsonResponse({'success':False}, status=401)
         
-
+@csrf_exempt
 @api_view(['POST'])
 def log_out(request):
     logout(request)
     return JsonResponse({'success':True})
 
-
+@csrf_exempt
 @api_view(['GET'])
 def user_profile(request):
     # return HttpResponse({request})
@@ -99,7 +101,7 @@ def user_profile(request):
 
         return JsonResponse({'authenticated':False})
 
-
+@csrf_exempt
 @api_view(['GET'])
 def user_channels(request):
     if request.method == 'GET':
@@ -110,6 +112,7 @@ def user_channels(request):
 
         return JsonResponse({'channels':serialized_channels.data})
 
+@csrf_exempt
 @api_view(['POST'])
 def create_channel(request):
     if request.method == 'POST':
@@ -132,6 +135,7 @@ def create_channel(request):
 
         return JsonResponse({'success':True})
 
+@csrf_exempt
 @api_view(['POST'])
 def channel_add_user(request):
     if request.method == 'POST':
@@ -152,6 +156,7 @@ def channel_add_user(request):
 
         return JsonResponse({'success':True})
 
+@csrf_exempt
 @api_view(['GET'])
 def user_organization_channels(request):
     if request.method == 'GET':
@@ -164,7 +169,7 @@ def user_organization_channels(request):
         return JsonResponse({'data':serialized_channels.data})
         # return JsonResponse({'channels':serialized_channels.data})
 
-
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def manage_chat_log(request):
     if request.method == 'GET':
@@ -190,7 +195,7 @@ def manage_chat_log(request):
 
         return Response(201)
 
-
+@csrf_exempt
 @api_view(['GET'])
 def chat_log(request, room_name):
     if request.method == 'GET':
@@ -207,7 +212,7 @@ def chat_log(request, room_name):
         return JsonResponse({'data':data[::-1]},status=200)
 
 
-
+@csrf_exempt
 @api_view(['GET','POST'])
 def manage_organization(request):
     if request.method == 'POST':
@@ -240,6 +245,7 @@ def manage_organization(request):
 
         return JsonResponse({'data':serialized_organizations.data})
 
+@csrf_exempt
 @api_view(['POST'])
 def manage_organization_user(request):
     if request.method == 'POST':
@@ -259,7 +265,7 @@ def manage_organization_user(request):
 
         return JsonResponse({'data':True})
 
-    
+@csrf_exempt
 @api_view(['GET','POST'])
 def manage_organization_channel(request, organization_id):
     if request.method == 'GET':
