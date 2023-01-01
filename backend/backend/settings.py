@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6=2l7bo51oqz=@pw-m)j=x@8@irp*(l_fzn&086^@3q88s%jc@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -152,7 +152,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("aws-redis-chat.s0r9d8.ng.0001.use1.cache.amazonaws.com", 6379)],
         },
     },
 }
