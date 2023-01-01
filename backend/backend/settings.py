@@ -137,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'chat.User'
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://44.203.37.11',
+    'http://44.202.14.177',
     'http://127.0.0.1:9000',
     'http://localhost:8000',
 ]
