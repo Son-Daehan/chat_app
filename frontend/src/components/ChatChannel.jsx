@@ -27,7 +27,7 @@ const ChatChannel = ({
 
 		const newSocket = new WebSocket(
 			// `ws://localhost:8000/ws/chat/${channelName}/`
-			`ws://localhost:8000/ws/chat/${channelName}/`
+			`ws://` + window.location.host + `/ws/chat/${channelName}/`
 		);
 
 		setSelectedChannel(newSocket);
