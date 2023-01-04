@@ -17,7 +17,7 @@ urlpatterns = [
 
 
 
-    path('organization/', views.manage_organization),
+    path('organizations/', views.manage_organization),
     path('organization/add_user/', views.manage_organization_user),
     path('organization/channel/', views.manage_organization_channel),
     path('organization/channel/<int:organization_id>/', views.manage_organization_channel),

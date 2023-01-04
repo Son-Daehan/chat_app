@@ -1,55 +1,51 @@
+/* HOMEPAGE STYLING */
+
 .homepage-container {
     display: flex;
     flex-direction: row;
 }
 
-.contacts-container {
+.homepage-left-wrapper {
     display: flex;
-    flex-direction: column;
     background-color: aqua;
     width: 300px;
     height: 100vh;
 }
 
-.chat-frame-container {
-    display: flex;
-    width: 800px;
-    height: 100vh;
-}
-
-.chat-frame-wrapper {
+.homepage-organization-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    row-gap: 20px;
+}
+
+
+
+.homepage-middle-wrapper {
+    display: flex;
+    height: 100vh;
+    background-color: white;
+}
+
+.chat-frame-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .chat-frame-message-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    background-color: blue;
-    height: 95%;
-    gap: 20px;
+    height: 90%;
+    overflow-y: scroll;
+
 }
 
 .user-message-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    gap: 10px;
 }
 
-.chat-frame-input-message-container {
-    background-color: brown;
-    height: 5%;
-}
 
-.chat-frame-input-message-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
 
-.chat-frame-input-message {
-    width: 80%;
-}
+
+/* CHATFRAME STYLING */

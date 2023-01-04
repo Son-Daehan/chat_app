@@ -137,8 +137,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'chat.User'
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://54.174.147.222',
-    'http://127.0.0.1:9000',
     'http://localhost:8000',
 ]
 
@@ -152,10 +150,10 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("aws-redis-chat.s0r9d8.ng.0001.use1.cache.amazonaws.com", 6379)],
+            "hosts": [("localhost", 6379)],
         },
     },
 }
 
-REDIS_HOST = 'aws-redis-chat.s0r9d8.ng.0001.use1.cache.amazonaws.com'
+REDIS_HOST = 'localhost'
 REDIS_PORT = 6379

@@ -1,13 +1,17 @@
 import axios from "axios";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const ChatFrame = ({ channelSocket, channelName }) => {
+const ChatFrame = () => {
 	const [inputMessage, setInputMessage] = useState(null);
 	const [messages, setMessages] = useState([]);
 
 	const { userInfo } = useSelector((state) => state.user);
+	const { selectedChannelName, selectedChannelSocket } = useSelector(
+		(state) => state.channel
+	);
 
 	const handleSendMessageForm = (event) => {
 		// console.log(channelSocket.url);
@@ -15,16 +19,16 @@ const ChatFrame = ({ channelSocket, channelName }) => {
 		event.target.reset();
 
 		const message_data = {
-			room_name: channelName,
+			room_name: selectedChannelName,
 			user: userInfo.email,
 			message: inputMessage,
 		};
 
-		channelSocket.send(JSON.stringify(message_data));
+		selectedChannelSocket.send(JSON.stringify(message_data));
 		setInputMessage(null);
 	};
 
-	channelSocket.onmessage = function (e) {
+	selectedChannelSocket.onmessage = function (e) {
 		const data = JSON.parse(e.data);
 
 		const user = data.user;
@@ -35,7 +39,9 @@ const ChatFrame = ({ channelSocket, channelName }) => {
 	};
 
 	const handleRetreiveChannelLog = async () => {
-		const response = await axios.get(`/api/chat/chat_log/${channelName}/`);
+		const response = await axios.get(
+			`/api/chat/chat_log/${selectedChannelName}/`
+		);
 		const data = response.data.data;
 		console.log(data);
 		// console.log(data);
@@ -51,12 +57,28 @@ const ChatFrame = ({ channelSocket, channelName }) => {
 	useEffect(() => {
 		handleRetreiveChannelLog();
 		// console.log(messages);
-	}, [channelSocket]);
+	}, [selectedChannelSocket]);
+
+	const bottomRef = useRef(null);
+
+	useEffect(() => {
+		if (messages) {
+			bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [messages]);
 
 	return (
-		<div className="chat-frame-container large-container">
-			<div className="chat-frame-wrapper large-container">
-				<div className="chat-frame-message-container med-container">
+		<div className="chat-frame-container">
+			<div className="chat-frame-header-container">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima nisi
+				magni alias incidunt qui temporibus optio totam illum iusto eaque, neque
+				soluta a voluptas! Laborum voluptatibus dignissimos quisquam aliquam
+				eius voluptate non vero sunt error expedita. Voluptates, excepturi!
+				Laboriosam cum dolores voluptate quibusdam culpa tenetur! Ratione libero
+				autem quis id.
+			</div>
+			<div className="chat-frame-message-container">
+				<div className="chat-frame-message-wrapper">
 					{messages &&
 						messages.map((message) => {
 							return (
@@ -69,20 +91,21 @@ const ChatFrame = ({ channelSocket, channelName }) => {
 								</div>
 							);
 						})}
+					<div ref={bottomRef}></div>
 				</div>
-				<div className="chat-frame-input-message-container">
-					<form
-						onSubmit={handleSendMessageForm}
-						className="chat-frame-input-message-wrapper med-container"
-					>
-						<input
-							className="chat-frame-input-message small-container"
-							type="text"
-							onChange={(event) => setInputMessage(event.target.value)}
-						/>
-						<button type="submit">Send</button>
-					</form>
-				</div>
+			</div>
+			<div className="chat-frame-input-message-container">
+				<form
+					onSubmit={handleSendMessageForm}
+					className="chat-frame-input-message-wrapper med-container"
+				>
+					<input
+						className="chat-frame-input-message small-container"
+						type="text"
+						onChange={(event) => setInputMessage(event.target.value)}
+					/>
+					<button type="submit">Send</button>
+				</form>
 			</div>
 		</div>
 	);

@@ -1,38 +1,35 @@
-import { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { connectChannel } from "../redux/reducers/ChannelSlice";
 
-const ChatChannel = ({
-	channelName,
-	selectedChannel,
-	setSelectedChannel,
-	setSelectedChannelName,
-}) => {
-	const [socket, setSocket] = useState(null);
+const ChatChannel = ({ channelName }) => {
+	const { selectedChannelSocket } = useSelector((state) => state.channel);
+
+	const dispatch = useDispatch();
 
 	const handleCloseChannel = () => {
-		socket.close();
+		selectedChannelSocket.close();
 	};
 
-	if (socket) {
-		socket.onopen = function () {
-			console.log("Chat socket has been connected");
-			// console.log(channelSocket);
-		};
-	}
+	// if (selectedChannelSocket) {
+	// 	selectedChannelSocket.onopen = function () {
+	// 		console.log("Chat socket has been connected");
+	// 		// console.log(channelSocket);
+	// 	};
+	// }
 
 	const handleCreateSocket = () => {
-		if (selectedChannel) {
-			selectedChannel.close();
+		if (selectedChannelSocket) {
+			selectedChannelSocket.close();
 		}
 
 		const newSocket = new WebSocket(
-			// `ws://localhost:8000/ws/chat/${channelName}/`
 			`ws://` + window.location.host + `/ws/chat/${channelName}/`
 		);
 
-		setSelectedChannel(newSocket);
-		setSelectedChannelName(channelName);
-		setSocket(newSocket);
+		dispatch(
+			connectChannel({ channelSocket: newSocket, channelName: channelName })
+		);
 	};
 
 	return (
