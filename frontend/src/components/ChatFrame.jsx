@@ -70,12 +70,15 @@ const ChatFrame = () => {
 	return (
 		<div className="chat-frame-container">
 			<div className="chat-frame-header-container">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima nisi
-				magni alias incidunt qui temporibus optio totam illum iusto eaque, neque
-				soluta a voluptas! Laborum voluptatibus dignissimos quisquam aliquam
-				eius voluptate non vero sunt error expedita. Voluptates, excepturi!
-				Laboriosam cum dolores voluptate quibusdam culpa tenetur! Ratione libero
-				autem quis id.
+				<div className="chat-frame-header-left-wrapper">
+					<div className="chat-frame-header-channel-name-container">
+						<h2>{selectedChannelName}</h2>
+					</div>
+				</div>
+				<div className="chat-frame-header-right-wrapper">
+					<div>55</div>
+					<div>Add +</div>
+				</div>
 			</div>
 			<div className="chat-frame-message-container">
 				<div className="chat-frame-message-wrapper">

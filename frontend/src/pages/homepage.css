@@ -20,24 +20,69 @@
 
 
 
+/* CHAT FRAME STYLING */
+
 .homepage-middle-wrapper {
-    display: flex;
+    display: grid;
     height: 100vh;
-    background-color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.768);
 }
 
 .chat-frame-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    position: relative;
+
+    /* height: 100%; */
+}
+
+.chat-frame-header-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 8vh;
+}
+
+.chat-frame-header-left-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-left: 50px;
+    gap: 30px;
+}
+
+.chat-frame-channel-name-container {
+
+}
+
+.chat-frame-header-right-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-right: 50px;
+    gap: 30px;
 }
 
 .chat-frame-message-container {
     display: flex;
-    flex-direction: column;
-    height: 90%;
-    overflow-y: scroll;
+    width: 100%;
+    /* width: 80%; */
+    justify-content: center;
+    /* height: 90%; */
+    
+}
 
+.chat-frame-message-wrapper {
+    display: flex;
+    flex: 1;
+    position: relative;
+    margin-left: 30px;
+    flex-direction: column;
+    height: 80vh;
+    position: relative;
+    /* height: 90%; */
+    overflow-y: scroll;
+    gap: 50px;
 }
 
 .user-message-container {
@@ -45,7 +90,31 @@
     flex-direction: row;
 }
 
+.chat-frame-input-message-container {
+    display: flex;
+    justify-content: center;
+    height: 12vh;
+}
 
+.chat-frame-input-message-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* box-shadow: 2px 2px 2px 2px rgb(198, 198, 198); */
+    border-color: rgba(255, 255, 255, 0.506);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    width: 95%;
+    height: 90%;
+    background-color: transparent;
+}
 
+.chat-frame-input-message {
+    flex: 1;
+    background-color: transparent;
+}
 
-/* CHATFRAME STYLING */
+.chat-frame-input-message {
+    flex: 1;
+}

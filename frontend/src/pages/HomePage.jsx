@@ -65,7 +65,7 @@ const HomePage = () => {
 				</div>
 			</div>
 			<div className="homepage-middle-wrapper">
-				<div>{selectedChannelSocket && <ChatFrame />}</div>
+				{selectedChannelSocket && <ChatFrame />}
 			</div>
 			<div className="homepage-right-wrapper"></div>
 		</div>
