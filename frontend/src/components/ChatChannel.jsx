@@ -37,7 +37,6 @@ const ChatChannel = ({ channelName }) => {
 			<h5>
 				<em>{channelName}</em>
 			</h5>
-			<button onClick={handleCloseChannel}>Close Channel</button>
 		</div>
 	);
 };

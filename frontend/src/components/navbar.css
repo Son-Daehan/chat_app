@@ -1,0 +1,15 @@
+.navbar-organization-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.navbar-organization-channel-header-container {
+    display: flex;
+}
+
+.navbar-organization-channel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

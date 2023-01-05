@@ -11,6 +11,7 @@ import {
 } from "../redux/reducers/OrganizationSlice";
 import Organization from "../components/Organization";
 import OrganizationChannel from "../components/OrganizationChannel";
+import CreateOrganizationModal from "../components/modal/CreateOrganizationModal";
 
 const HomePage = () => {
 	const { defaultOrganization } = useSelector((state) => state.organization);
@@ -31,6 +32,7 @@ const HomePage = () => {
 		<div className="homepage-container">
 			<div className="homepage-left-wrapper">
 				<div className="homepage-organization-container">
+					<CreateOrganizationModal />
 					<Navbar />
 					<div>
 						<div

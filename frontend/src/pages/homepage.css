@@ -10,6 +10,7 @@
     background-color: aqua;
     width: 300px;
     height: 100vh;
+    padding: 20px;
 }
 
 .homepage-organization-container {
@@ -94,6 +95,7 @@
     display: flex;
     justify-content: center;
     height: 12vh;
+    
 }
 
 .chat-frame-input-message-wrapper {
