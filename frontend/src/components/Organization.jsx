@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setDefaultOrganization } from "../redux/reducers/OrganizationSlice";
-import OrganizationAddUser from "./OrganizationAddUser";
-import OrganizationCreate from "./OrganizationCreate";
+import CreateOrganizationChannelModal from "./modal/CreateOrganizationChannelModal";
+import CreateOrganizationModal from "./modal/CreateOrganizationModal";
+import OrganizationAddUserModal from "./modal/OrganizationAddUserModal";
 
 const Organization = () => {
 	const { organizations, defaultOrganization, displayOrganizationSettings } =
@@ -32,12 +33,15 @@ const Organization = () => {
 					<hr />
 					{defaultOrganization && (
 						<div>
-							<OrganizationAddUser
+							<OrganizationAddUserModal
+								selectedOrganizationID={defaultOrganization.id}
+							/>
+							<CreateOrganizationChannelModal
 								selectedOrganizationID={defaultOrganization.id}
 							/>
 						</div>
 					)}
-					<OrganizationCreate />
+					<CreateOrganizationModal />
 				</>
 			)}
 		</>

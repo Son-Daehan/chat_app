@@ -7,10 +7,12 @@
 
 .homepage-left-wrapper {
     display: flex;
+    flex-direction: column;
     background-color: aqua;
     width: 300px;
     height: 100vh;
     padding: 20px;
+    justify-content: space-between;
 }
 
 .homepage-organization-container {

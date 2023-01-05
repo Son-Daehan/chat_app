@@ -4,47 +4,46 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CreateOrganizationModal = () => {
+const OrganizationAddUserModal = ({ selectedOrganizationID }) => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
 	const [fullscreen, setFullscreen] = useState(true);
 	const [show, setShow] = useState(false);
-	const [inputOrganizationName, setInputOrganizationName] = useState(null);
+	const [inputUsername, setInputUsername] = useState(null);
 
 	function handleShow(breakpoint) {
 		setFullscreen(breakpoint);
 		setShow(true);
 	}
 
-	const handleCreateOrganization = async () => {
+	const handleAddUserToOrganization = async () => {
 		const data = {
-			organizationName: inputOrganizationName,
+			organizationID: selectedOrganizationID,
+			username: inputUsername,
 		};
 
-		const response = await axios.post("/api/organization/", data);
-
-		console.log(response);
+		const response = await axios.post("/api/organization/add_user/", data);
 	};
 
 	return (
 		<>
 			<Button className="me-2 mb-2" onClick={() => handleShow("md-down")}>
-				Create Organization
+				Add User to Organization
 			</Button>
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
 				<Modal.Header closeButton>
-					<Modal.Title>Create Organization</Modal.Title>
+					<Modal.Title>Add User to Organization</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<input
-						onChange={(event) => setInputOrganizationName(event.target.value)}
-					/>
-					<button onClick={handleCreateOrganization}>
-						Create Organization
-					</button>
+					<div>
+						<input onChange={(event) => setInputUsername(event.target.value)} />
+						<button onClick={handleAddUserToOrganization}>
+							Add User To Org
+						</button>
+					</div>
 				</Modal.Body>
 			</Modal>
 		</>
 	);
 };
 
-export default CreateOrganizationModal;
+export default OrganizationAddUserModal;

@@ -2,7 +2,6 @@ import ChatFrame from "../components/ChatFrame";
 import "./homepage.css";
 import { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import OrganizationChannelCreate from "../components/OrganizationChannelCreate";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	handleDisplayOrganizationSettings,
@@ -11,7 +10,6 @@ import {
 } from "../redux/reducers/OrganizationSlice";
 import Organization from "../components/Organization";
 import OrganizationChannel from "../components/OrganizationChannel";
-import CreateOrganizationModal from "../components/modal/CreateOrganizationModal";
 
 const HomePage = () => {
 	const { defaultOrganization } = useSelector((state) => state.organization);
@@ -32,8 +30,6 @@ const HomePage = () => {
 		<div className="homepage-container">
 			<div className="homepage-left-wrapper">
 				<div className="homepage-organization-container">
-					<CreateOrganizationModal />
-					<Navbar />
 					<div>
 						<div
 							className="organization-header-container"
@@ -42,9 +38,6 @@ const HomePage = () => {
 							{defaultOrganization ? (
 								<div>
 									<h1>{defaultOrganization.organization.organization_name}</h1>
-									<OrganizationChannelCreate
-										selectedOrganizationID={defaultOrganization.id}
-									/>
 								</div>
 							) : (
 								<h1>Select an Organization</h1>
@@ -64,6 +57,9 @@ const HomePage = () => {
 								</div>
 							))} */}
 					</div>
+				</div>
+				<div>
+					<Navbar />
 				</div>
 			</div>
 			<div className="homepage-middle-wrapper">
