@@ -8,11 +8,13 @@
 .homepage-left-wrapper {
     display: flex;
     flex-direction: column;
-    background-color: aqua;
     width: 300px;
     height: 100vh;
     padding: 20px;
     justify-content: space-between;
+    border-right: 1px;
+    border-style: solid;
+    border-color: beige;
 }
 
 .homepage-organization-container {
@@ -21,6 +23,12 @@
     row-gap: 20px;
 }
 
+.homepage-organization-header-container {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    height: 3vh;
+}
 
 
 /* CHAT FRAME STYLING */
@@ -29,7 +37,6 @@
     display: grid;
     height: 100vh;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.768);
 }
 
 .chat-frame-container {
@@ -45,7 +52,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 8vh;
+    height: 5vh;
+    padding-top:50px;
+    padding-bottom: 23.5px;
+    
 }
 
 .chat-frame-header-left-wrapper {
@@ -53,6 +63,7 @@
     flex-direction: row;
     margin-left: 50px;
     gap: 30px;
+    align-content: center;
 }
 
 .chat-frame-channel-name-container {
@@ -75,22 +86,36 @@
     
 }
 
+
 .chat-frame-message-wrapper {
     display: flex;
     flex: 1;
     position: relative;
     margin-left: 30px;
     flex-direction: column;
-    height: 80vh;
+    height: 75vh;
     position: relative;
     /* height: 90%; */
     overflow-y: scroll;
     gap: 50px;
 }
 
+.message-container {
+    padding: 10px;
+}
+
+.message-container :hover {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: aliceblue;
+}
+
 .user-message-container {
     display: flex;
     flex-direction: row;
+    gap: 20px;
+    padding: 20px;
 }
 
 .chat-frame-input-message-container {

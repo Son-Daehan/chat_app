@@ -13,6 +13,10 @@ a:-webkit-any-link {
     color: inherit;
 }
 
+body {
+    color: white;
+    background-color: rgba(63, 61, 61, 0.689);
+}
 
 /* GENERAL CONTAINER WITH SHADOW, PADDING, AND RADIUS */
 .large-container {
@@ -61,3 +65,12 @@ button {
     background-color: rgba(72, 160, 255, 0.384);
 }
 
+
+.dropdown-toggle::after {
+    display: none !important; 
+  }
+
+button {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}

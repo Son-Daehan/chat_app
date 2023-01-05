@@ -69,27 +69,32 @@ const ChatFrame = () => {
 
 	return (
 		<div className="chat-frame-container">
-			<div className="chat-frame-header-container">
-				<div className="chat-frame-header-left-wrapper">
-					<div className="chat-frame-header-channel-name-container">
-						<h2>{selectedChannelName}</h2>
+			<div>
+				<div className="chat-frame-header-container">
+					<div className="chat-frame-header-left-wrapper">
+						<div className="chat-frame-header-channel-name-container">
+							<h2>{selectedChannelName}</h2>
+						</div>
+					</div>
+					<div className="chat-frame-header-right-wrapper">
+						<div>55</div>
+						<div>Add +</div>
 					</div>
 				</div>
-				<div className="chat-frame-header-right-wrapper">
-					<div>55</div>
-					<div>Add +</div>
-				</div>
+				<hr />
 			</div>
 			<div className="chat-frame-message-container">
 				<div className="chat-frame-message-wrapper">
 					{messages &&
 						messages.map((message) => {
 							return (
-								<div className="user-message-container">
-									<div>Image</div>
-									<div>
-										<div>{message.user}</div>
-										<div>{message.message}</div>
+								<div className="message-container">
+									<div className="user-message-container">
+										<div>Image</div>
+										<div>
+											<div>{message.user}</div>
+											<div>{message.message}</div>
+										</div>
 									</div>
 								</div>
 							);

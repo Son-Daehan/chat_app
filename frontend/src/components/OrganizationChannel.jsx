@@ -11,16 +11,19 @@ const OrganizationChannel = ({}) => {
 	return (
 		<div className="navbar-organization-container">
 			<div className="navbar-organization-channel-header-container">
-				<h4>Organization Channels</h4>
+				<h4>
+					<em>Organization Channels</em>
+				</h4>
 			</div>
-			<div className="navbar-organization-channel-container">
+			<hr />
+			<ul className="navbar-organization-channel-container">
 				{defaultOrganizationChannels &&
 					defaultOrganizationChannels.map((channel) => (
-						<div>
+						<li>
 							<ChatChannel channelName={channel.channel_name} />
-						</div>
+						</li>
 					))}
-			</div>
+			</ul>
 		</div>
 	);
 };

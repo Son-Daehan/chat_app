@@ -13,3 +13,11 @@
     flex-direction: column;
     gap: 15px;
 }
+
+.navbar-organization-channel-container li {
+    cursor: pointer;
+}
+
+.navbar-organization-channel-container li :hover {
+    color: rgba(245, 245, 220, 0.444);
+}

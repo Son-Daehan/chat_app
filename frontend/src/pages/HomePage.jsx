@@ -10,6 +10,7 @@ import {
 } from "../redux/reducers/OrganizationSlice";
 import Organization from "../components/Organization";
 import OrganizationChannel from "../components/OrganizationChannel";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const HomePage = () => {
 	const { defaultOrganization } = useSelector((state) => state.organization);
@@ -30,23 +31,29 @@ const HomePage = () => {
 		<div className="homepage-container">
 			<div className="homepage-left-wrapper">
 				<div className="homepage-organization-container">
-					<div>
-						<div
-							className="organization-header-container"
-							onClick={() => dispatch(handleDisplayOrganizationSettings())}
-						>
-							{defaultOrganization ? (
-								<div>
-									<h1>{defaultOrganization.organization.organization_name}</h1>
-								</div>
-							) : (
-								<h1>Select an Organization</h1>
-							)}
-						</div>
-						<div>
+					<Dropdown>
+						{/* <div className="homepage-organization-header-container"> */}
+						{defaultOrganization ? (
+							<Dropdown.Toggle
+								variant="none"
+								// className="d-inline"
+								// id="dropdown-basic"
+								style={{
+									color: "white",
+									justifyContent: "left",
+								}}
+							>
+								<h3>{defaultOrganization.organization.organization_name}</h3>
+							</Dropdown.Toggle>
+						) : (
+							<h1>Select an Organization</h1>
+						)}
+						{/* </div> */}
+						<hr />
+						<Dropdown.Menu variant="dark">
 							<Organization />
-						</div>
-					</div>
+						</Dropdown.Menu>
+					</Dropdown>
 					<div>
 						<OrganizationChannel />
 						{/* <h4>Organization Channels</h4>
