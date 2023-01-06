@@ -44,7 +44,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user = message_received_json["user"]
         message = message_received_json["message"]
         room = message_received_json["room_name"]
-        print(room)
 
         # Saves the message in Redis as a List
         redis_instance.lpush(room, json.dumps({"user": user, "message": message}))

@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../redux/reducers/AuthSlice";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import "./loginpage.css";
 
 const LoginPage = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
-	const { userInfo, hydrate, error } = useSelector((state) => state.user);
+	const { userInfo } = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
 	const loginUser = () => {
@@ -26,19 +28,46 @@ const LoginPage = () => {
 	}, [navigate, userInfo]);
 
 	return (
-		<div>
-			<input
-				type="text"
-				placeholder="username"
-				onChange={(event) => setUsername(event.target.value)}
-			/>
-			<input
-				type="password"
-				placeholder="password"
-				onChange={(event) => setPassword(event.target.value)}
-			/>
-			<button onClick={loginUser}>login</button>
-			{error && <div>{error}</div>}
+		<div className="login-container">
+			<div className="login-wrapper">
+				<div>
+					<h1>chat application</h1>
+					<h5>
+						Connect with your colleagues and associates from different
+						organizations.
+					</h5>
+				</div>
+				<div className="login-inner-wrapper">
+					<Form>
+						<Form.Group className="mb-3" controlId="formBasicEmail">
+							<Form.Label>Email address</Form.Label>
+							<Form.Control
+								type="email"
+								placeholder="Enter email"
+								onChange={(event) => setUsername(event.target.value)}
+							/>
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="formBasicPassword">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type="password"
+								placeholder="Password"
+								onChange={(event) => setPassword(event.target.value)}
+							/>
+						</Form.Group>
+
+						<Button type="submit" onClick={loginUser} className="login-button">
+							Submit
+						</Button>
+					</Form>
+					<hr />
+					<div className="login-inner-wrapper-bottom">
+						<Link to="/register">
+							<h4>Create a new account!</h4>
+						</Link>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
