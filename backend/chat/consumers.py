@@ -14,8 +14,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "chat_%s" % self.room_name
-        print(self.room_group_name)
-        print(self.room_name)
 
         # Join room group
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
@@ -46,6 +44,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user = message_received_json["user"]
         message = message_received_json["message"]
         room = message_received_json["room_name"]
+        print(room)
 
         # Saves the message in Redis as a List
         redis_instance.lpush(room, json.dumps({"user": user, "message": message}))
