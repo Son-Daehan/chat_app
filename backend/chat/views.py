@@ -25,90 +25,11 @@ from .serializers.organization_serializer import (
     OrganizationChannelSerializer,
 )
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
 
 redis_instance = redis.StrictRedis(
     host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0
 )
-
-
-@api_view(["POST"])
-def signup(request):
-    try:
-        body = request.data
-        data = {
-            "username": body["email"],
-            "email": body["email"],
-            "password": body["password"],
-            "first_name": body["firstName"],
-            "last_name": body["lastName"],
-        }
-
-        try:
-            User.objects.create_user(**data)
-
-        except:
-            return JsonResponse(
-                {"status": "false", "message": "there is def something wrong"},
-                status=403,
-            )
-
-        return JsonResponse({"success": True})
-
-    except Exception as e:
-
-        return JsonResponse({"success": False})
-
-
-@api_view(["POST"])
-def log_in(request):
-    try:
-        body = request.data
-        username = body["username"]
-        password = body["password"]
-
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                try:
-                    login(request, user)
-                    serializedUser = UserSerializer(user)
-                    return JsonResponse({"user_info": serializedUser.data})
-                except Exception as e:
-                    # print('oops!')
-                    # print(str(e))
-                    return JsonResponse({"login": False}, status=401)
-                # Redirect to a success page.
-            else:
-                return JsonResponse({"active": False}, status=401)
-                # Return a 'disabled account' error message
-        else:
-            return JsonResponse({"user": False}, status=401)
-            # Return an 'invalid login' error message.
-    except Exception as e:
-        print(e)
-        return JsonResponse({"success": False}, status=401)
-
-
-@api_view(["POST"])
-def log_out(request):
-    logout(request)
-    return JsonResponse({"success": True})
-
-
-@api_view(["GET"])
-def user_profile(request):
-    # return HttpResponse({request})
-    try:
-        if request.user:
-            if request.user.is_authenticated:
-                return JsonResponse(
-                    {"email": request.user.email, "first_name": request.user.first_name}
-                )
-            else:
-                return JsonResponse({"user": None})
-    except Exception as e:
-
-        return JsonResponse({"authenticated": False})
 
 
 @api_view(["GET"])
@@ -311,3 +232,67 @@ def manage_organization_channel(request, organization_id):
         new_organization_channel.save()
 
         return JsonResponse({"success": True})
+
+
+class AccountView(APIView):
+    def get(self, request):
+        users = User.objects.all()
+        user_serialized = UserSerializer(users, many=True)
+        return JsonResponse({"users": user_serialized.data})
+
+    def post(self, request):
+        new_user_info = request.data
+
+        user_serializer = UserSerializer(data=new_user_info)
+        if user_serializer.is_valid(raise_exception=True):
+            user_saved = user_serializer.save()
+            return JsonResponse(
+                {"scuccess": f"User {user_saved.email} created successfully."}
+            )
+
+    # def put(self, request, pk):
+    #     pass
+
+    # def delete(self, request, pk):
+    #     pass
+
+
+class LoginView(APIView):
+    def post(self, request):
+        data = request.data
+        username = data.get("username", None)
+        password = data.get("password", None)
+
+        user = authenticate(email=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                user_serialized = UserSerializer(user)
+                return JsonResponse({"user_info": user_serialized.data})
+            else:
+                return JsonResponse(status=404)
+        else:
+            return JsonResponse(status=404)
+
+
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+
+        return JsonResponse({"success": True})
+
+
+# class Organization(APIView):
+#     def get(self, request):
+#         pass
+
+#     def post(self, request):
+#         new_organization_info = request.data
+
+#         organization_serializer = OrganizationSerializer(data=new_organization_info)
+#         if organization_serializer.is_valid(raise_exception=True):
+#             new_organization = organization_serializer.save()
+#             return JsonResponse(
+#                 {"scuccess": f"User {user_saved.email} created successfully."}
+#             )

@@ -21,7 +21,8 @@ const RegisterPage = () => {
 	axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 	const dispatch = useDispatch();
-	const createUser = () => {
+	const createUser = (event) => {
+		event.preventDefault();
 		dispatch(signUp({ firstName, lastName, email, password }));
 	};
 
@@ -30,7 +31,7 @@ const RegisterPage = () => {
 	useEffect(() => {
 		// redirect authenticated user to profile screen
 		if (userInfo) {
-			navigate("/profile");
+			navigate("/");
 		}
 		// redirect user to login page if registration was successful
 		if (success) {

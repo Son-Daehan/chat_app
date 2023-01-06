@@ -8,3 +8,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "first_name", "organizations"]
+
+    def create(self, data):
+        new_user = User.objects.create(**data)
+
+        return new_user

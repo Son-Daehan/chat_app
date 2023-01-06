@@ -8,6 +8,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
         model = Organization
         fields = "__all__"
 
+    # def create(self, data):
+    #     new_organization = Organization.objects.create(**data)
+
+    #     return new_organization
+
 
 class UserOrganizationSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer("organization")

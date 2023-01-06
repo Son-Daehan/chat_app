@@ -12,7 +12,7 @@ const Navbar = () => {
 	const dispatch = useDispatch();
 
 	const logout = async () => {
-		const response = await axios.post("/api/account/log_out/");
+		const response = await axios.post("/api/accounts/logout/");
 		console.log(response.data);
 		dispatch(signOut());
 	};
@@ -23,7 +23,7 @@ const Navbar = () => {
 				<Link to="/">Home</Link>
 				<Link to="/login">Login</Link>
 				<Link to="/register">Register</Link>
-				<Link onClick={logout} to="/">
+				<Link onClick={logout} to="/login">
 					Logout
 				</Link>
 			</ul>
