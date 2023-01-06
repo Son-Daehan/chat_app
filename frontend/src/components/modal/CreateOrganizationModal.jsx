@@ -20,7 +20,7 @@ const CreateOrganizationModal = () => {
 			organizationName: inputOrganizationName,
 		};
 
-		const response = await axios.post("/api/organization/", data);
+		const response = await axios.post("/api/organizations/", data);
 
 		console.log(response);
 	};

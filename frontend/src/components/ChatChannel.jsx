@@ -4,6 +4,7 @@ import { connectChannel } from "../redux/reducers/ChannelSlice";
 
 const ChatChannel = ({ channelName }) => {
 	const { selectedChannelSocket } = useSelector((state) => state.channel);
+	const { defaultOrganization } = useSelector((state) => state.organization);
 
 	const dispatch = useDispatch();
 
@@ -24,7 +25,9 @@ const ChatChannel = ({ channelName }) => {
 		}
 
 		const newSocket = new WebSocket(
-			`ws://` + window.location.host + `/ws/chat/${channelName}/`
+			`ws://` +
+				window.location.host +
+				`/ws/chat/${defaultOrganization.organization.organization_name}_${channelName}/`
 		);
 
 		dispatch(

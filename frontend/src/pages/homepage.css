@@ -91,13 +91,12 @@
     display: flex;
     flex: 1;
     position: relative;
-    margin-left: 30px;
+    margin-left: 18px;
     flex-direction: column;
     height: 75vh;
     position: relative;
     /* height: 90%; */
     overflow-y: scroll;
-    gap: 50px;
 }
 
 .message-container {
@@ -116,6 +115,11 @@
     flex-direction: row;
     gap: 20px;
     padding: 20px;
+}
+
+.user-message-container :hover {
+    border-width: 0;
+
 }
 
 .chat-frame-input-message-container {
@@ -142,8 +146,5 @@
 .chat-frame-input-message {
     flex: 1;
     background-color: transparent;
-}
-
-.chat-frame-input-message {
-    flex: 1;
+    color: white;
 }

@@ -2,7 +2,8 @@ import axios from "axios";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { sendMessageToRedis } from "../redux/reducers/ChatSlice";
 
 const ChatFrame = () => {
 	const [inputMessage, setInputMessage] = useState(null);
@@ -12,6 +13,9 @@ const ChatFrame = () => {
 	const { selectedChannelName, selectedChannelSocket } = useSelector(
 		(state) => state.channel
 	);
+	const { defaultOrganization } = useSelector((state) => state.organization);
+
+	const dispatch = useDispatch();
 
 	const handleSendMessageForm = (event) => {
 		// console.log(channelSocket.url);
@@ -19,13 +23,14 @@ const ChatFrame = () => {
 		event.target.reset();
 
 		const message_data = {
-			room_name: selectedChannelName,
+			room_name: `${defaultOrganization.organization.organization_name}_${selectedChannelName}`,
 			user: userInfo.email,
 			message: inputMessage,
 		};
 
 		selectedChannelSocket.send(JSON.stringify(message_data));
 		setInputMessage(null);
+		dispatch(sendMessageToRedis(message_data));
 	};
 
 	selectedChannelSocket.onmessage = function (e) {
@@ -40,7 +45,7 @@ const ChatFrame = () => {
 
 	const handleRetreiveChannelLog = async () => {
 		const response = await axios.get(
-			`/api/chat/chat_log/${selectedChannelName}/`
+			`/api/chat/chat_log/${defaultOrganization.organization.organization_name}_${selectedChannelName}/`
 		);
 		const data = response.data.data;
 		console.log(data);
@@ -110,6 +115,7 @@ const ChatFrame = () => {
 					<input
 						className="chat-frame-input-message small-container"
 						type="text"
+						placeholder={`Message #${selectedChannelName}`}
 						onChange={(event) => setInputMessage(event.target.value)}
 					/>
 					<button type="submit">Send</button>
