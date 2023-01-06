@@ -67,12 +67,10 @@ def log_in(request):
         password = body["password"]
 
         user = authenticate(username=username, password=password)
-
         if user is not None:
             if user.is_active:
                 try:
                     login(request, user)
-
                     serializedUser = UserSerializer(user)
                     return JsonResponse({"user_info": serializedUser.data})
                 except Exception as e:
@@ -236,9 +234,11 @@ def chat_log(request, room_name):
 def manage_organization(request):
     if request.method == "POST":
         data = request.data
+        user = User.objects.get(email=request.user)
+
         new_organization_info = {
             "organization_name": data["organizationName"],
-            "organization_owner": request.user,
+            "organization_owner": user,
         }
         new_organization = Organization(**new_organization_info)
         new_organization.save()

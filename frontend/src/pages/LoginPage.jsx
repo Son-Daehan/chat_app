@@ -13,7 +13,8 @@ const LoginPage = () => {
 	const { userInfo } = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
-	const loginUser = () => {
+	const loginUser = (event) => {
+		event.preventDefault();
 		console.log(username, password);
 		dispatch(signIn({ username, password }));
 	};

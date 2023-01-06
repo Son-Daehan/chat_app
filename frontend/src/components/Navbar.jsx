@@ -21,7 +21,6 @@ const Navbar = () => {
 		<nav className="navbar-container">
 			<ul className="nav-links-container">
 				<Link to="/">Home</Link>
-				<Link to="/profile">Profile</Link>
 				<Link to="/login">Login</Link>
 				<Link to="/register">Register</Link>
 				<Link onClick={logout} to="/">
