@@ -24,7 +24,6 @@ const ChatChannelCreator = ({ setUserChannels, selectedChannelName }) => {
 			...prevState,
 			{ channel_name: channelName },
 		]);
-		// console.log(response);
 	};
 
 	const handleAddUserToChannel = async () => {

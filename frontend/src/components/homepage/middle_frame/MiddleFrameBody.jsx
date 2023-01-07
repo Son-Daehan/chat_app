@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
 import ChatFrame from "../../channel/ChatFrame";
 
 const MiddleFrameBody = () => {

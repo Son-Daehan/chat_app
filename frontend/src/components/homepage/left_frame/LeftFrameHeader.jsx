@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
 	retrieveOrganization,
-	retrieveOrganizationUsers,
 	setDefaultOrganization,
 } from "../../../redux/reducers/OrganizationSlice";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -36,8 +35,6 @@ const LeftFrameHeader = () => {
 			<Dropdown>
 				<Dropdown.Toggle
 					variant="none"
-					// className="d-inline"
-					// id="dropdown-basic"
 					className="organization-dropdown-toggle"
 				>
 					<h3>

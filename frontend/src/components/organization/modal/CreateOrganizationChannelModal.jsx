@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const CreateOrganizationChannelModal = ({ selectedOrganizationID }) => {
-	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
+	// const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
 	const [fullscreen, setFullscreen] = useState(true);
 	const [show, setShow] = useState(false);
 	const [inputChannelName, setInputChannelName] = useState(null);

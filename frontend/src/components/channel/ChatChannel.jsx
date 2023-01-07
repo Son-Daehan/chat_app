@@ -14,17 +14,6 @@ const ChatChannel = ({ organizationChannel, channelName }) => {
 
 	const dispatch = useDispatch();
 
-	// const handleCloseChannel = () => {
-	// 	selectedChannelSocket.close();
-	// };
-
-	// if (selectedChannelSocket) {
-	// 	selectedChannelSocket.onopen = function () {
-	// 		console.log("Chat socket has been connected");
-	// 		// console.log(channelSocket);
-	// 	};
-	// }
-
 	const handleCreateSocket = () => {
 		if (selectedChannelSocket) {
 			selectedChannelSocket.close();
