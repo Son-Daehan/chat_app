@@ -1,0 +1,101 @@
+/* HOMEPAGE LEFT FRAME STYLING */
+.homepage-left-frame-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+
+/* HEADER STYLING */
+.homepage-left-frame-header-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-right-style: solid;
+    padding-left: 15px;
+}
+
+.homepage-left-frame-header-container :hover {
+    color: rgb(167, 124, 31);;
+}
+
+.organization-dropdown-toggle {
+    color: white;
+    justify-content: left;
+}
+
+
+/* BODY STYLING */
+.homepage-left-frame-body-container {
+    display: flex;
+    flex-direction: column;
+    border-right-style: solid;
+}
+
+.organization-channel-header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.organization-channel-body-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding-top: 30px;
+}
+
+.organization-channel-body-container li {
+    cursor: pointer;
+}
+
+.organization-channel-body-container li :hover {
+    color: rgb(167, 124, 31);
+}
+
+
+/* FOOTER STYLING */
+.homepage-left-frame-footer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-right-style: solid;
+    border-width: 1px;
+}
+
+.homepage-left-frame-footer-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.homepage-left-frame-footer-user-icon-container {
+    cursor: pointer;
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    font-size: 18px;
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+    border-radius: 5px;
+    border-color: beige;
+}
+
+.homepage-left-frame-footer-logout-container {
+    cursor: pointer;
+    width: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: beige;
+}

@@ -1,0 +1,132 @@
+/* HOMEPAGE MIDDLE FRAME STYLING */
+.homepage-middle-frame-container {
+    display: flex;
+    flex-direction: column;
+    flex: 4
+}
+
+.homepage-middle-frame-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* HEADER STYLING */
+.homepage-middle-frame-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.homepage-middle-frame-header-title-container {
+    padding-left: 30px;
+}
+
+.homepage-middle-frame-channel-user-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 18px;
+    /* border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: beige; */
+}
+
+
+/* BODY STYLING */
+.homepage-middle-frame-body-container {
+    display: flex;
+}
+
+.chat-frame-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    /* height: 100%; */
+}
+
+.chat-frame-message-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.chat-frame-message-wrapper {
+    display: flex;
+    flex: 1;
+    position: relative;
+    margin-left: 18px;
+    flex-direction: column;
+    height: 75vh;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.message-container {
+    padding: 10px;
+}
+
+.message-container :hover {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: aliceblue;
+}
+
+.user-message-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+}
+
+.user-message-container :hover {
+    border-width: 0;
+}
+
+
+/* FOOTER STYLING */
+.homepage-middle-frame-footer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-frame-input-message-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: 12vh;
+}
+
+.chat-frame-input-message-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* box-shadow: 2px 2px 2px 2px rgb(198, 198, 198); */
+    border-color: rgba(255, 255, 255, 0.506);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    width: 95%;
+    height: 90%;
+    background-color: transparent;
+}
+
+.chat-frame-input-message {
+    flex: 1;
+    background-color: transparent;
+    color: white;
+}
+
+.chat-frame-input-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
