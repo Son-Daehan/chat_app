@@ -21,8 +21,6 @@ const CreateOrganizationModal = () => {
 		};
 
 		const response = await axios.post("/api/organizations/", data);
-
-		console.log(response);
 	};
 
 	return (

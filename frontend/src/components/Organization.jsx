@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setDefaultOrganization } from "../redux/reducers/OrganizationSlice";
+import {
+	retrieveOrganizationUsers,
+	setDefaultOrganization,
+} from "../redux/reducers/OrganizationSlice";
 import CreateOrganizationChannelModal from "./modal/CreateOrganizationChannelModal";
 import CreateOrganizationModal from "./modal/CreateOrganizationModal";
 import OrganizationAddUserModal from "./modal/OrganizationAddUserModal";
 import Dropdown from "react-bootstrap/Dropdown";
+import { useEffect } from "react";
 
 const Organization = () => {
 	const { organizations, defaultOrganization, displayOrganizationSettings } =
@@ -14,6 +18,12 @@ const Organization = () => {
 	const handleSetDefaultOrganization = (organization) => {
 		dispatch(setDefaultOrganization(organization));
 	};
+
+	useEffect(() => {
+		if (defaultOrganization) {
+			dispatch(retrieveOrganizationUsers(defaultOrganization.id));
+		}
+	}, [defaultOrganization]);
 
 	return (
 		<>

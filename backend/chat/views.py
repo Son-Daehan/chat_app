@@ -180,23 +180,33 @@ def manage_organization(request):
 
         serialized_organizations = UserOrganizationSerializer(organizations, many=True)
 
-        print(serialized_organizations.data)
+        # print(serialized_organizations.data)
 
         return JsonResponse({"data": serialized_organizations.data})
 
 
-@api_view(["POST"])
-def manage_organization_user(request):
+@api_view(["GET", "POST"])
+def manage_organization_user(request, organization_id):
+    if request.method == "GET":
+        organization = Organization.objects.get(id=organization_id)
+        organization_users = UserOrganization.objects.filter(organization=organization)
+        # print(organization_users)
+
+        serialized_organization_users = UserOrganizationSerializer(
+            organization_users, many=True
+        )
+        print(serialized_organization_users.data)
+
+        return JsonResponse({"data": serialized_organization_users.data})
+
     if request.method == "POST":
         data = request.data
 
-        organization = Organization.objects.get(id=data["organizationID"])
-        user = User.objects.get(email=data["username"])
+        organization = Organization.objects.get(id=organization_id)
+        user = User.objects.get(username=data["username"])
 
         new_organization_user_info = {"organization": organization, "user": user}
-
         new_organization_user = UserOrganization(**new_organization_user_info)
-
         new_organization_user.save()
 
         return JsonResponse({"data": True})
@@ -265,7 +275,7 @@ def accounts_login(request):
     username = data["username"]
     password = data["password"]
     user = authenticate(username=username, password=password)
-    print(user)
+    # print(user)
 
     if user is not None:
         if user.is_active:

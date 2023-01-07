@@ -21,3 +21,10 @@
 .navbar-organization-channel-container li :hover {
     color: rgba(245, 245, 220, 0.444);
 }
+
+.nav-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}

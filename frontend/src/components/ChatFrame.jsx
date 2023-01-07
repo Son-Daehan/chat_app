@@ -2,7 +2,8 @@ import axios from "axios";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { retrieveOrganizationUsers } from "../redux/reducers/OrganizationSlice";
 
 const ChatFrame = () => {
 	const [inputMessage, setInputMessage] = useState(null);
@@ -13,6 +14,8 @@ const ChatFrame = () => {
 		(state) => state.channel
 	);
 	const { defaultOrganization } = useSelector((state) => state.organization);
+
+	const dispatch = useDispatch();
 
 	const handleSendMessageForm = (event) => {
 		// console.log(channelSocket.url);
@@ -45,12 +48,6 @@ const ChatFrame = () => {
 		);
 		const data = response.data.data;
 		console.log(data);
-		// console.log(data);
-
-		// const message_data = {
-		// 	user: data.user,
-		// 	message: data.message,
-		// };
 
 		setMessages(data);
 	};

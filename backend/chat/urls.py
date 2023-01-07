@@ -9,7 +9,9 @@ urlpatterns = [
     path("chat/user_channels/", views.user_channels),
     path("chat/user_channels/organization/", views.user_organization_channels),
     path("organizations/", views.manage_organization),
-    path("organization/add_user/", views.manage_organization_user),
+    path(
+        "organization/add_user/<int:organization_id>/", views.manage_organization_user
+    ),
     path("organization/channel/", views.manage_organization_channel),
     path(
         "organization/channel/<int:organization_id>/", views.manage_organization_channel

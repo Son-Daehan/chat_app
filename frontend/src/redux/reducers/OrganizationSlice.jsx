@@ -8,6 +8,7 @@ const initialState = {
 	defaultOrganizationChannels:
 		JSON.parse(localStorage.getItem("defaultOrganizationChannels")) || null,
 	displayOrganizationSettings: false,
+	organizationUsers: null,
 };
 
 export const retrieveOrganization = createAsyncThunk(
@@ -41,6 +42,37 @@ export const retrieveOrganizationChannels = createAsyncThunk(
 
 				return response.data.data;
 			}
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const organizationAddUser = createAsyncThunk(
+	"organizationAddUser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.post(
+				`/api/organization/add_user/${data.organizationID}/`,
+				{ username: data.username }
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const retrieveOrganizationUsers = createAsyncThunk(
+	"retrieveOrganizationUsers",
+	async (organizationID, { rejectWithValue }) => {
+		try {
+			const response = await axios.get(
+				`/api/organization/add_user/${organizationID}/`
+			);
+
+			return response.data;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
@@ -86,6 +118,11 @@ const OrganizationSlice = createSlice({
 		[retrieveOrganizationChannels.rejected]: (state, action) => {
 			console.log("rejected works");
 		},
+		[retrieveOrganizationUsers.pending]: (state) => {},
+		[retrieveOrganizationUsers.fulfilled]: (state, action) => {
+			state.organizationUsers = action.payload.data;
+		},
+		[retrieveOrganizationUsers.rejected]: (state, action) => {},
 	},
 });
 

@@ -3,12 +3,16 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch } from "react-redux";
+import { organizationAddUser } from "../../redux/reducers/OrganizationSlice";
 
 const OrganizationAddUserModal = ({ selectedOrganizationID }) => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
 	const [fullscreen, setFullscreen] = useState(true);
 	const [show, setShow] = useState(false);
 	const [inputUsername, setInputUsername] = useState(null);
+
+	const dispatch = useDispatch();
 
 	function handleShow(breakpoint) {
 		setFullscreen(breakpoint);
@@ -20,8 +24,8 @@ const OrganizationAddUserModal = ({ selectedOrganizationID }) => {
 			organizationID: selectedOrganizationID,
 			username: inputUsername,
 		};
-
-		const response = await axios.post("/api/organization/add_user/", data);
+		console.log(selectedOrganizationID);
+		dispatch(organizationAddUser(data));
 	};
 
 	return (
@@ -36,9 +40,10 @@ const OrganizationAddUserModal = ({ selectedOrganizationID }) => {
 				<Modal.Body>
 					<div>
 						<input onChange={(event) => setInputUsername(event.target.value)} />
-						<button onClick={handleAddUserToOrganization}>
+
+						<Button onClick={handleAddUserToOrganization} variant="seondary">
 							Add User To Org
-						</button>
+						</Button>
 					</div>
 				</Modal.Body>
 			</Modal>
