@@ -6,6 +6,7 @@ const initialState = {
 	selectedChannelName: null,
 	selectedChannelSocket: null,
 	defaultChannel: JSON.parse(localStorage.getItem("defaultChannel")) || null,
+	selectedChannel: null,
 };
 
 // export const connectChannel = createAsyncThunk(
@@ -25,6 +26,9 @@ const ChannelSlice = createSlice({
 		connectChannel: (state, action) => {
 			state.selectedChannelName = action.payload.channelName;
 			state.selectedChannelSocket = action.payload.channelSocket;
+		},
+		setSelectedChannel: (state, action) => {
+			state.selectedChannel = action.payload;
 		},
 	},
 	// extraReducers: {
@@ -70,5 +74,5 @@ const ChannelSlice = createSlice({
 	// },
 });
 
-export const { connectChannel } = ChannelSlice.actions;
+export const { connectChannel, setSelectedChannel } = ChannelSlice.actions;
 export default ChannelSlice.reducer;

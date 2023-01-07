@@ -7,6 +7,7 @@ import {
 	handleDisplayOrganizationSettings,
 	retrieveOrganization,
 	retrieveOrganizationChannels,
+	retrieveOrganizationChannelUsers,
 	setDefaultOrganization,
 } from "../redux/reducers/OrganizationSlice";
 import Organization from "../components/Organization";
@@ -18,7 +19,9 @@ const HomePage = () => {
 	const { organizations, defaultOrganization } = useSelector(
 		(state) => state.organization
 	);
-	const { selectedChannelSocket } = useSelector((state) => state.channel);
+	const { selectedChannelSocket, selectedChannel } = useSelector(
+		(state) => state.channel
+	);
 	const { authenticated } = useSelector((state) => state.user);
 	const navigate = useNavigate();
 
@@ -35,6 +38,12 @@ const HomePage = () => {
 			dispatch(retrieveOrganizationChannels(defaultOrganization.id));
 		}
 	}, [defaultOrganization]);
+
+	useEffect(() => {
+		if (selectedChannel) {
+			dispatch(retrieveOrganizationChannelUsers(selectedChannel.id));
+		}
+	}, [selectedChannel]);
 
 	return (
 		<div className="homepage-container">

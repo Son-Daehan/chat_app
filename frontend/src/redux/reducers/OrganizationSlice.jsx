@@ -9,6 +9,7 @@ const initialState = {
 		JSON.parse(localStorage.getItem("defaultOrganizationChannels")) || null,
 	displayOrganizationSettings: false,
 	organizationUsers: null,
+	selectedOrganizationChannelUsers: null,
 };
 
 export const retrieveOrganization = createAsyncThunk(
@@ -79,6 +80,37 @@ export const retrieveOrganizationUsers = createAsyncThunk(
 	}
 );
 
+export const retrieveOrganizationChannelUsers = createAsyncThunk(
+	"retrieveOrganizationChannelUsers",
+	async (organizationChannelID, { rejectWithValue }) => {
+		try {
+			const response = await axios.get(
+				`/api/organization/channel/users/${organizationChannelID}/`
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const organizationChannelAddUser = createAsyncThunk(
+	"organizationChannelAddUser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.post(
+				`/api/organization/channel/users/${data.channelID}/`,
+				{ username: data.username }
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
 const OrganizationSlice = createSlice({
 	name: "organization",
 	initialState,
@@ -123,6 +155,14 @@ const OrganizationSlice = createSlice({
 			state.organizationUsers = action.payload.data;
 		},
 		[retrieveOrganizationUsers.rejected]: (state, action) => {},
+		[retrieveOrganizationChannelUsers.pending]: (state) => {},
+		[retrieveOrganizationChannelUsers.fulfilled]: (state, action) => {
+			state.selectedOrganizationChannelUsers = action.payload.data;
+		},
+		[retrieveOrganizationChannelUsers.rejected]: (state, action) => {},
+		[organizationChannelAddUser.pending]: (state) => {},
+		[organizationChannelAddUser.fulfilled]: (state, action) => {},
+		[organizationChannelAddUser.rejected]: (state, action) => {},
 	},
 });
 

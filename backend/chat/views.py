@@ -10,7 +10,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from .models import Channel
-from .models import UserChannel, Organization, UserOrganization, OrganizationChannel
+from .models import (
+    UserChannel,
+    Organization,
+    UserOrganization,
+    OrganizationChannel,
+    OrganizationChannelUser,
+)
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from .serializers.serializers import UserSerializer
@@ -23,6 +29,7 @@ from .serializers.organization_serializer import (
     OrganizationSerializer,
     UserOrganizationSerializer,
     OrganizationChannelSerializer,
+    OrganizationChannelUserSerializer,
 )
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
@@ -241,6 +248,44 @@ def manage_organization_channel(request, organization_id):
         new_organization_channel = OrganizationChannel(**new_organization_channel_info)
 
         new_organization_channel.save()
+
+        return JsonResponse({"success": True})
+
+
+@api_view(["GET", "POST"])
+def manage_organization_channel_users(request, organization_channel_id):
+    if request.method == "GET":
+        organization_channel = OrganizationChannel.objects.get(
+            id=organization_channel_id
+        )
+        organization_channel_users = OrganizationChannelUser.objects.filter(
+            organization_channel=organization_channel
+        )
+
+        serialized_organization_channel_users = OrganizationChannelUserSerializer(
+            organization_channel_users, many=True
+        )
+
+        return JsonResponse({"data": serialized_organization_channel_users.data})
+
+    if request.method == "POST":
+        data = request.data
+        print(data)
+
+        organization_channel = OrganizationChannel.objects.get(
+            id=organization_channel_id
+        )
+        user = User.objects.get(username=data["username"])
+
+        new_organization_channel_user_info = {
+            "organization_channel": organization_channel,
+            "user": user,
+        }
+        new_organization_channel_user = OrganizationChannelUser(
+            **new_organization_channel_user_info
+        )
+
+        new_organization_channel_user.save()
 
         return JsonResponse({"success": True})
 

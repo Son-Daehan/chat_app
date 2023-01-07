@@ -94,3 +94,14 @@ class OrganizationChannel(models.Model):
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="organization_channels"
     )
+
+
+class OrganizationChannelUser(models.Model):
+    organization_channel = models.ForeignKey(
+        OrganizationChannel,
+        on_delete=models.CASCADE,
+        related_name="organization_channel_users",
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="organization_channel_users"
+    )

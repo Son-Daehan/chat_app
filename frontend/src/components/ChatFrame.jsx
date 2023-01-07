@@ -3,7 +3,9 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { retrieveOrganizationUsers } from "../redux/reducers/OrganizationSlice";
+import {} from "../redux/reducers/OrganizationSlice";
+import { RiSendPlaneLine, RiSendPlaneFill } from "react-icons/ri";
+import OrganizationChannelAddUserModal from "./modal/OrganizationChannelAddUserModal";
 
 const ChatFrame = () => {
 	const [inputMessage, setInputMessage] = useState(null);
@@ -13,7 +15,9 @@ const ChatFrame = () => {
 	const { selectedChannelName, selectedChannelSocket } = useSelector(
 		(state) => state.channel
 	);
-	const { defaultOrganization } = useSelector((state) => state.organization);
+	const { defaultOrganization, selectedOrganizationChannelUsers } = useSelector(
+		(state) => state.organization
+	);
 
 	const dispatch = useDispatch();
 
@@ -54,6 +58,7 @@ const ChatFrame = () => {
 
 	useEffect(() => {
 		handleRetreiveChannelLog();
+
 		// console.log(messages);
 	}, [selectedChannelSocket]);
 
@@ -75,8 +80,11 @@ const ChatFrame = () => {
 						</div>
 					</div>
 					<div className="chat-frame-header-right-wrapper">
-						<div>55</div>
-						<div>Add +</div>
+						<div>
+							{selectedOrganizationChannelUsers &&
+								selectedOrganizationChannelUsers.length}
+						</div>
+						<OrganizationChannelAddUserModal />
 					</div>
 				</div>
 				<hr />
@@ -111,7 +119,12 @@ const ChatFrame = () => {
 						placeholder={`Message #${selectedChannelName}`}
 						onChange={(event) => setInputMessage(event.target.value)}
 					/>
-					<button type="submit">Send</button>
+					<div className="chat-frame-input-button">
+						<div></div>
+						<button type="submit">
+							<RiSendPlaneFill style={{ height: "25px", width: "25px" }} />
+						</button>
+					</div>
 				</form>
 			</div>
 		</div>

@@ -20,7 +20,11 @@ const OrganizationChannel = ({}) => {
 				{defaultOrganizationChannels &&
 					defaultOrganizationChannels.map((channel) => (
 						<li>
-							<ChatChannel channelName={channel.channel_name} />
+							<ChatChannel
+								organizationChannel={channel}
+								channelName={channel.channel_name}
+								channelID={channel.id}
+							/>
 						</li>
 					))}
 			</ul>

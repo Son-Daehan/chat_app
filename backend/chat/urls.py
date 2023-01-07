@@ -16,6 +16,10 @@ urlpatterns = [
     path(
         "organization/channel/<int:organization_id>/", views.manage_organization_channel
     ),
+    path(
+        "organization/channel/users/<int:organization_channel_id>/",
+        views.manage_organization_channel_users,
+    ),
     path("chat/chat_log/", views.manage_chat_log, name="items"),
     path("chat/chat_log/<str:room_name>/", views.chat_log, name="chat_log"),
     path("accounts/", views.accounts),

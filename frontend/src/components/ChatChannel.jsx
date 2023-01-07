@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connectChannel } from "../redux/reducers/ChannelSlice";
+import {
+	connectChannel,
+	setSelectedChannel,
+} from "../redux/reducers/ChannelSlice";
+import { retrieveOrganizationChannelUsers } from "../redux/reducers/OrganizationSlice";
 
-const ChatChannel = ({ channelName }) => {
+const ChatChannel = ({ organizationChannel, channelName, channelID }) => {
 	const { selectedChannelSocket } = useSelector((state) => state.channel);
 	const { defaultOrganization } = useSelector((state) => state.organization);
 
@@ -33,6 +37,8 @@ const ChatChannel = ({ channelName }) => {
 		dispatch(
 			connectChannel({ channelSocket: newSocket, channelName: channelName })
 		);
+		dispatch(setSelectedChannel(organizationChannel));
+		dispatch(retrieveOrganizationChannelUsers(channelID));
 	};
 
 	return (
