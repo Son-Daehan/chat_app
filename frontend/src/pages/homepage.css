@@ -8,7 +8,7 @@
 .homepage-left-wrapper {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
     height: 100vh;
     padding: 20px;
     justify-content: space-between;

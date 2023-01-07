@@ -8,6 +8,7 @@ import Form from "react-bootstrap/Form";
 import "./registerpage.css";
 
 const RegisterPage = () => {
+	const [username, setUsername] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const RegisterPage = () => {
 	const dispatch = useDispatch();
 	const createUser = (event) => {
 		event.preventDefault();
-		dispatch(signUp({ firstName, lastName, email, password }));
+		dispatch(signUp({ username, firstName, lastName, email, password }));
 	};
 
 	const navigate = useNavigate();
@@ -46,26 +47,38 @@ const RegisterPage = () => {
 					<div className="register-inner-wrapper">
 						<Form>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label>Email address</Form.Label>
+								<Form.Label>Username</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="Enter username"
+									id="inputUsername"
+									onChange={(event) => setUsername(event.target.value)}
+								/>
+							</Form.Group>
+							<Form.Group className="mb-3" controlId="formBasicEmail">
+								<Form.Label>First Name</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Enter first name"
+									id="inputFirstName"
 									onChange={(event) => setFirstName(event.target.value)}
 								/>
 							</Form.Group>
 							<Form.Group className="mb-3" controlId="formBasicPassword">
-								<Form.Label>Password</Form.Label>
+								<Form.Label>Last Name</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Enter last name"
+									id="inputLastName"
 									onChange={(event) => setLastName(event.target.value)}
 								/>
 							</Form.Group>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label>Password</Form.Label>
+								<Form.Label>Email</Form.Label>
 								<Form.Control
 									type="email"
 									placeholder="Enter email"
+									id="inputEmail"
 									onChange={(event) => setEmail(event.target.value)}
 								/>
 							</Form.Group>
@@ -74,6 +87,7 @@ const RegisterPage = () => {
 								<Form.Control
 									type="password"
 									placeholder="Enter password"
+									id="inputPassword"
 									onChange={(event) => setPassword(event.target.value)}
 								/>
 							</Form.Group>

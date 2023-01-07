@@ -16,7 +16,11 @@ const LoginPage = () => {
 	const loginUser = (event) => {
 		event.preventDefault();
 		console.log(username, password);
-		dispatch(signIn({ username, password }));
+		const data = {
+			username: username,
+			password: password,
+		};
+		dispatch(signIn(data));
 	};
 
 	const navigate = useNavigate();
@@ -43,8 +47,8 @@ const LoginPage = () => {
 						<Form.Group className="mb-3" controlId="formBasicEmail">
 							<Form.Label>Email address</Form.Label>
 							<Form.Control
-								type="email"
-								placeholder="Enter email"
+								type="text"
+								placeholder="Enter username"
 								onChange={(event) => setUsername(event.target.value)}
 							/>
 						</Form.Group>

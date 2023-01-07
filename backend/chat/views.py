@@ -27,6 +27,7 @@ from .serializers.organization_serializer import (
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 
+
 redis_instance = redis.StrictRedis(
     host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0
 )
@@ -155,7 +156,7 @@ def chat_log(request, room_name):
 def manage_organization(request):
     if request.method == "POST":
         data = request.data
-        user = User.objects.get(email=request.user)
+        user = User.objects.get(username=request.user)
 
         new_organization_info = {
             "organization_name": data["organizationName"],
@@ -234,21 +235,21 @@ def manage_organization_channel(request, organization_id):
         return JsonResponse({"success": True})
 
 
-class AccountView(APIView):
-    def get(self, request):
+@api_view(["GET", "POST"])
+def accounts(request):
+    if request.method == "GET":
         users = User.objects.all()
         user_serialized = UserSerializer(users, many=True)
         return JsonResponse({"users": user_serialized.data})
 
-    def post(self, request):
+    if request.method == "POST":
         new_user_info = request.data
 
-        user_serializer = UserSerializer(data=new_user_info)
-        if user_serializer.is_valid(raise_exception=True):
-            user_saved = user_serializer.save()
-            return JsonResponse(
-                {"scuccess": f"User {user_saved.email} created successfully."}
-            )
+        new_user = User.objects.create_user(**new_user_info)
+        # if user_serializer.is_valid(raise_exception=True):
+        # user_saved = user_serializer.save()
+        new_user.save()
+        return JsonResponse({"scuccess": True})
 
     # def put(self, request, pk):
     #     pass
@@ -257,30 +258,31 @@ class AccountView(APIView):
     #     pass
 
 
-class LoginView(APIView):
-    def post(self, request):
-        data = request.data
-        username = data.get("username", None)
-        password = data.get("password", None)
+@api_view(["GET", "POST"])
+def accounts_login(request):
 
-        user = authenticate(email=username, password=password)
+    data = request.data
+    username = data["username"]
+    password = data["password"]
+    user = authenticate(username=username, password=password)
+    print(user)
 
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                user_serialized = UserSerializer(user)
-                return JsonResponse({"user_info": user_serialized.data})
-            else:
-                return JsonResponse(status=404)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            user_serialized = UserSerializer(user)
+            return JsonResponse({"user_info": user_serialized.data})
         else:
-            return JsonResponse(status=404)
+            return JsonResponse({"success": False}, status=404)
+    else:
+        return JsonResponse({"success": False}, status=404)
 
 
-class LogoutView(APIView):
-    def post(self, request):
-        logout(request)
+@api_view(["POST"])
+def accounts_logout(request):
+    logout(request)
 
-        return JsonResponse({"success": True})
+    return JsonResponse({"success": True})
 
 
 # class Organization(APIView):

@@ -1,31 +1,28 @@
 import axios from "axios";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../redux/reducers/AuthSlice";
 
 const Navbar = () => {
 	// const logout = async () => {
 	// 	await axios.post("/account/log_out/");
 	// };
+	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
 
-	const logout = async () => {
+	const handleLogout = async () => {
 		const response = await axios.post("/api/accounts/logout/");
 		console.log(response.data);
 		dispatch(signOut());
+		navigate("/login");
 	};
 
 	return (
 		<nav className="navbar-container">
 			<ul className="nav-links-container">
-				<Link to="/">Home</Link>
-				<Link to="/login">Login</Link>
-				<Link to="/register">Register</Link>
-				<Link onClick={logout} to="/login">
-					Logout
-				</Link>
+				<div onClick={handleLogout}>Logout</div>
 			</ul>
 		</nav>
 	);

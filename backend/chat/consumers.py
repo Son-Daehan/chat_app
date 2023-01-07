@@ -20,15 +20,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        await self.send(
-            text_data=json.dumps(
-                {
-                    "type": "connection_established",
-                    "user": "Chat Bot",
-                    "message": "You are now connected!",
-                }
-            )
-        )
+        # await self.send(
+        #     text_data=json.dumps(
+        #         {
+        #             "type": "connection_established",
+        #             "user": "Chat Bot",
+        #             "message": "You are now connected!",
+        #         }
+        #     )
+        # )
 
         # return JsonResponse({'success': True})
 

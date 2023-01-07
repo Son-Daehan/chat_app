@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
 	userInfo: JSON.parse(localStorage.getItem("userInfo")) || null,
-	hydrate: JSON.parse(localStorage.getItem("hydrate")) || false,
+	authenticated: JSON.parse(localStorage.getItem("hydrate")) || false,
 	loading: false,
 	error: null,
 	success: false,
@@ -14,6 +14,7 @@ export const signUp = createAsyncThunk(
 	async (data, { rejectWithValue }) => {
 		try {
 			const formatted_data = {
+				username: data.username,
 				first_name: data.firstName,
 				last_name: data.lastName,
 				email: data.email,
@@ -69,7 +70,7 @@ const AuthSlice = createSlice({
 			};
 			state.userInfo = newUserInfo;
 			localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
-			localStorage.setItem("hydrate", JSON.stringify(true));
+			localStorage.setItem("authenticated", JSON.stringify(true));
 			// state.sessionID = payload.sessionID;
 		},
 		[signIn.rejected]: (state, { payload }) => {

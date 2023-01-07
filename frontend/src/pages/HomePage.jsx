@@ -12,16 +12,22 @@ import {
 import Organization from "../components/Organization";
 import OrganizationChannel from "../components/OrganizationChannel";
 import Dropdown from "react-bootstrap/Dropdown";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 	const { organizations, defaultOrganization } = useSelector(
 		(state) => state.organization
 	);
 	const { selectedChannelSocket } = useSelector((state) => state.channel);
+	const { authenticated } = useSelector((state) => state.user);
+	const navigate = useNavigate();
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		// if (authenticated) {
 		dispatch(retrieveOrganization());
+		// }
 	}, []);
 
 	useEffect(() => {

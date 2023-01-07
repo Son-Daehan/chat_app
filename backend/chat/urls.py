@@ -16,9 +16,9 @@ urlpatterns = [
     ),
     path("chat/chat_log/", views.manage_chat_log, name="items"),
     path("chat/chat_log/<str:room_name>/", views.chat_log, name="chat_log"),
-    path("accounts/", views.AccountView.as_view()),
-    path("accounts/login/", views.LoginView.as_view()),
-    path("accounts/logout/", views.LogoutView.as_view()),
+    path("accounts/", views.accounts),
+    path("accounts/login/", views.accounts_login),
+    path("accounts/logout/", views.accounts_logout),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
