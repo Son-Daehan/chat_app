@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../redux/reducers/AuthSlice";
+import { AiOutlineLogout } from "react-icons/ai";
 
 const Navbar = () => {
 	// const logout = async () => {
@@ -21,8 +22,25 @@ const Navbar = () => {
 
 	return (
 		<nav className="navbar-container">
+			<hr />
 			<ul className="nav-links-container">
-				<div onClick={handleLogout}>Logout</div>
+				<div
+					onClick={handleLogout}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "flex-end",
+						paddingRight: "10px",
+					}}
+				>
+					<AiOutlineLogout
+						style={{
+							height: "35px",
+							width: "35px",
+							cursor: "pointer",
+						}}
+					></AiOutlineLogout>
+				</div>
 			</ul>
 		</nav>
 	);
