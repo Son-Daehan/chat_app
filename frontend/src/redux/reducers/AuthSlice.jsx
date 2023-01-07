@@ -7,6 +7,7 @@ const initialState = {
 	loading: false,
 	error: null,
 	success: false,
+	profileImg: JSON.parse(localStorage.getItem("profileImg")) || null,
 };
 
 export const signUp = createAsyncThunk(
@@ -43,6 +44,21 @@ export const signIn = createAsyncThunk(
 	}
 );
 
+export const imageUpload = createAsyncThunk(
+	"imageUpload",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.postForm(
+				"/api/accounts/image_upload/",
+				data
+			);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
 const AuthSlice = createSlice({
 	name: "user",
 	initialState,
@@ -52,6 +68,7 @@ const AuthSlice = createSlice({
 			state.loading = false;
 			state.userInfo = null;
 			state.error = null;
+			state.profileImg = null;
 		},
 	},
 	extraReducers: {
@@ -67,8 +84,16 @@ const AuthSlice = createSlice({
 				email: payload.user_info.email,
 				firstName: payload.user_info.first_name,
 				lastName: payload.user_info.last_name,
+				username: payload.user_info.username,
+				profileImg: `${payload.user_info.profileImg}/`,
 			};
 			state.userInfo = newUserInfo;
+			state.profileImg = `${payload.user_info.profile_img}/`;
+
+			localStorage.setItem(
+				"profileImg",
+				JSON.stringify({ img_url: `${state.profileImg}/` })
+			);
 			localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
 			localStorage.setItem("authenticated", JSON.stringify(true));
 			// state.sessionID = payload.sessionID;
@@ -92,6 +117,12 @@ const AuthSlice = createSlice({
 			state.error = payload.message;
 			state.loading = false;
 		},
+		[imageUpload.pending]: (state, action) => {},
+		[imageUpload.fulfilled]: (state, action) => {
+			state.profileImg = action.payload;
+			localStorage.setItem("profileImg", JSON.stringify(state.profileImg));
+		},
+		[imageUpload.rejected]: (state, { payload }) => {},
 	},
 });
 

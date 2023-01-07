@@ -19,7 +19,6 @@ from .models import (
 )
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from .serializers.serializers import UserSerializer
 import json
 from .serializers.channel_serializer import (
     ChannelSerializer,
@@ -33,6 +32,8 @@ from .serializers.organization_serializer import (
 )
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
+from django.core.files.storage import default_storage
+from .serializers.user_serializer import UserSerializer
 
 
 redis_instance = redis.StrictRedis(
@@ -353,3 +354,23 @@ def accounts_logout(request):
 #             return JsonResponse(
 #                 {"scuccess": f"User {user_saved.email} created successfully."}
 #             )
+
+
+@api_view(["POST"])
+def image_upload(request):
+    if request.method == "POST":
+        try:
+
+            file = request.FILES["img"]
+
+            file_name = default_storage.save(f"{request.data['username']}", file)
+
+            user = User.objects.get(username=request.user)
+            user.profile_img = file_name
+            user.save(update_fields=["profile_img"])
+
+            return JsonResponse({"img_url": f"/media/{file_name}/"})
+
+        except Exception as e:
+
+            return JsonResponse({"success": False}, status=422)

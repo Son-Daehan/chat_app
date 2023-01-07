@@ -9,6 +9,7 @@ const ChatFrame = () => {
 		(state) => state.channel
 	);
 	const { defaultOrganization } = useSelector((state) => state.organization);
+	const { profileImg } = useSelector((state) => state.user);
 
 	selectedChannelSocket.onmessage = function (e) {
 		const data = JSON.parse(e.data);
@@ -49,7 +50,14 @@ const ChatFrame = () => {
 							return (
 								<div className="message-container">
 									<div className="user-message-container">
-										<div>Image</div>
+										{profileImg ? (
+											<img
+												src={profileImg.img_url}
+												style={{ height: "50px", width: "50px" }}
+											/>
+										) : (
+											""
+										)}
 										<div>
 											<div>{message.user}</div>
 											<div>{message.message}</div>

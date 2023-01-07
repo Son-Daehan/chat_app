@@ -25,6 +25,7 @@ urlpatterns = [
     path("accounts/", views.accounts),
     path("accounts/login/", views.accounts_login),
     path("accounts/logout/", views.accounts_logout),
+    path("accounts/image_upload/", views.image_upload),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

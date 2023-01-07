@@ -37,8 +37,11 @@ const OrganizationAddUserModal = ({ selectedOrganizationID }) => {
 					<Modal.Title>Add User to Organization</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div>
-						<input onChange={(event) => setInputUsername(event.target.value)} />
+					<div className="modal-input">
+						<input
+							className="modal-input"
+							onChange={(event) => setInputUsername(event.target.value)}
+						/>
 
 						<Button onClick={handleAddUserToOrganization} variant="seondary">
 							Add User To Org

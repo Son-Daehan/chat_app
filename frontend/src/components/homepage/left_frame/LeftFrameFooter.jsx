@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { retrieveOrganizationUsers } from "../../../redux/reducers/OrganizationSlice";
 import axios from "axios";
 import { signOut } from "../../../redux/reducers/AuthSlice";
+import ManageProfileModal from "../../account/ManageProfileModal";
 
 const LeftFrameFooter = () => {
 	const { defaultOrganization, organizationUsers } = useSelector(
@@ -34,6 +35,7 @@ const LeftFrameFooter = () => {
 					{organizationUsers ? organizationUsers.length : ""}
 					<FaUsersCog style={{ height: "35px", width: "35px" }} />
 				</div>
+				<ManageProfileModal />
 				<div
 					onClick={handleLogout}
 					className="homepage-left-frame-footer-logout-container"

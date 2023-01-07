@@ -46,6 +46,7 @@ class User(AbstractUser):
         unique=True,
     )
     is_active = models.BooleanField(default=True)
+    profile_img = models.ImageField(upload_to="images/", blank=True, null=True)
 
     objects = MyUserManager()
 
