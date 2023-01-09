@@ -45,7 +45,7 @@ const LoginPage = () => {
 				<div className="login-inner-wrapper">
 					<Form>
 						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Label>Email address</Form.Label>
+							<Form.Label>Username</Form.Label>
 							<Form.Control
 								type="text"
 								placeholder="Enter username"

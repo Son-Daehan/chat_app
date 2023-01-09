@@ -21,7 +21,7 @@ export const signUp = createAsyncThunk(
 				email: data.email,
 				password: data.password,
 			};
-			const response = await axios.post("/api/accounts/", formatted_data);
+			const response = await axios.post("/api/users/", formatted_data);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error);
@@ -33,7 +33,7 @@ export const signIn = createAsyncThunk(
 	"signIn",
 	async (data, { rejectWithValue }) => {
 		try {
-			const response = await axios.post("/api/accounts/login/", data);
+			const response = await axios.post("/api/login/", data);
 
 			// console.log(response);
 
@@ -79,6 +79,7 @@ const AuthSlice = createSlice({
 		[signIn.fulfilled]: (state, { payload }) => {
 			// console.log(payload);
 			state.loading = false;
+			console.log(payload);
 			// THE RESPONSE SENT FROM BACKEND IS AN OBJECT WITH PROPERTIES?? WONT SET TO STATE
 			const newUserInfo = {
 				email: payload.user_info.email,

@@ -17,7 +17,7 @@ const LeftFrameFooter = () => {
 	const navigate = useNavigate();
 
 	const handleLogout = async () => {
-		const response = await axios.post("/api/accounts/logout/");
+		const response = await axios.post("/api/logout/");
 		dispatch(signOut());
 		navigate("/login");
 	};

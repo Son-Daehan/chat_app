@@ -4,28 +4,62 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path("chat/channels/", views.create_channel),
-    path("chat/channels/add_user/", views.channel_add_user),
-    path("chat/user_channels/", views.user_channels),
-    path("chat/user_channels/organization/", views.user_organization_channels),
-    path("organizations/", views.manage_organization),
-    path(
-        "organization/add_user/<int:organization_id>/", views.manage_organization_user
-    ),
-    path("organization/channel/", views.manage_organization_channel),
-    path(
-        "organization/channel/<int:organization_id>/", views.manage_organization_channel
-    ),
-    path(
-        "organization/channel/users/<int:organization_channel_id>/",
-        views.manage_organization_channel_users,
-    ),
     path("chat/chat_log/", views.manage_chat_log, name="items"),
     path("chat/chat_log/<str:room_name>/", views.chat_log, name="chat_log"),
-    path("accounts/", views.accounts),
-    path("accounts/login/", views.accounts_login),
-    path("accounts/logout/", views.accounts_logout),
-    path("accounts/image_upload/", views.image_upload),
+    path("login/", views.user_login, name="login"),
+    path("logout/", views.user_logout, name="logout"),
+    # user
+    path("users/", views.user_list_create_view, name="user_list_create"),
+    path(
+        "users/<int:pk>/",
+        views.user_retrieve_update_destroy_view,
+    ),
+    # organization
+    path(
+        "organizations/",
+        views.organization_list_create_view,
+    ),
+    path(
+        "organizations/<int:pk>/",
+        views.organization_retrieve_update_destroy_view,
+    ),
+    # organization owner
+    path(
+        "organization_owner/",
+        views.organization_owner_list_create_view,
+    ),
+    path(
+        "organization_owner/<int:pk>/",
+        views.organization_owner_retrieve_update_destroy_view,
+    ),
+    # organization channel
+    path(
+        "organization_channels/",
+        views.organization_channel_list_create_view,
+    ),
+    path(
+        "organization_channels/<int:pk>/",
+        views.organization_channel_retrieve_update_destroy_view,
+    ),
+    # organization channel user
+    path(
+        "organization_channel_users/",
+        views.organization_channel_user_list_create_view,
+    ),
+    path(
+        "organization_channel_users/<int:pk>/",
+        views.organization_channel_user_retrieve_update_destroy_view,
+    ),
+    # user organization
+    path(
+        "user_organizations/",
+        views.user_organization_list_create_view,
+    ),
+    path(
+        "user_organizations/<int:pk>/",
+        views.user_organization_retrieve_update_destroy_view,
+    ),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)

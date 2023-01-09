@@ -17,9 +17,9 @@ class MyUserManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
         )
-
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
     # def create_superuser(self, email, date_of_birth, password=None):
@@ -46,6 +46,7 @@ class User(AbstractUser):
         unique=True,
     )
     is_active = models.BooleanField(default=True)
+
     profile_img = models.ImageField(upload_to="images/", blank=True, null=True)
 
     objects = MyUserManager()
@@ -54,6 +55,12 @@ class User(AbstractUser):
     USERNAME_FIELD = "username"
     # django uses the 'username' to identify users by default, but many modern applications use 'email' instead
     REQUIRED_FIELDS = []  # Email & Password are required by default.
+
+
+class OrganizationOwner(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="organization_owner"
+    )
 
 
 class Channel(models.Model):
@@ -75,8 +82,8 @@ class UserChannel(models.Model):
 
 class Organization(models.Model):
     organization_name = models.CharField(max_length=100)
-    organization_owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="organizations"
+    owner = models.ForeignKey(
+        OrganizationOwner, on_delete=models.CASCADE, related_name="owned_organizations"
     )
     members = models.ManyToManyField(
         User, through="UserOrganization", related_name="organizations"

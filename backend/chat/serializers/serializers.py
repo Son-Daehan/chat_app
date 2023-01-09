@@ -8,13 +8,12 @@ from ..models import (
 )
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     profile_img = serializers.ImageField(use_url=True)
 
     class Meta:
         model = User
         fields = [
-            "url",
             "id",
             "username",
             "email",
@@ -25,29 +24,40 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
-    members = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+class OrganizationSerializer(serializers.ModelSerializer):
+    members = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=User.objects.all(),
+    )
 
     class Meta:
         model = Organization
-        fields = ["url", "id", "organization_name", "organization_owner", "members"]
+        fields = ["id", "organization_name", "owner", "members"]
 
 
-class OrganizationChannelSerializer(serializers.HyperlinkedModelSerializer):
+class OrganizationOwnerSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    class Meta:
+        model = Organization
+        fields = ["id", "user"]
+
+
+class OrganizationChannelSerializer(serializers.ModelSerializer):
     members = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
 
     class Meta:
         model = OrganizationChannel
-        fields = ["url", "id", "channel_name", "is_private", "organization", "members"]
+        fields = ["id", "channel_name", "is_private", "organization", "members"]
 
 
-class UserOrganizationSerializer(serializers.HyperlinkedModelSerializer):
+class UserOrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserOrganization
-        fields = ["url", "id", "organization", "user"]
+        fields = ["id", "organization", "user"]
 
 
-class OrganizationChannelUserSerializer(serializers.HyperlinkedModelSerializer):
+class OrganizationChannelUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrganizationChannelUser
-        fields = ["url", "id", "organization_channel", "user"]
+        fields = ["id", "organization_channel", "user"]
