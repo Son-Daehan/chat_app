@@ -78,14 +78,8 @@ class Organization(models.Model):
     organization_owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="organizations"
     )
-
-
-class UserOrganization(models.Model):
-    organization = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, related_name="user_organizations"
-    )
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_organizations"
+    members = models.ManyToManyField(
+        User, through="UserOrganization", related_name="organizations"
     )
 
 
@@ -94,6 +88,18 @@ class OrganizationChannel(models.Model):
     is_private = models.BooleanField(default=False)
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="organization_channels"
+    )
+    members = models.ManyToManyField(
+        User, through="OrganizationChannelUser", related_name="organization_channels"
+    )
+
+
+class UserOrganization(models.Model):
+    organization = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="user_organizations"
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user_organizations"
     )
 
 
