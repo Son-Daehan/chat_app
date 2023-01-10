@@ -22,7 +22,7 @@ const ChatFrame = () => {
 
 	const handleRetreiveChannelLog = async () => {
 		const response = await axios.get(
-			`/api/chat/chat_log/${defaultOrganization.organization.organization_name}_${selectedChannelName}/`
+			`/api/chat/chat_log/${defaultOrganization.organization_name}_${selectedChannelName}/`
 		);
 		const data = response.data.data;
 

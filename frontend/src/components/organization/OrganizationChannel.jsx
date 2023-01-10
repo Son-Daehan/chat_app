@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { retrieveOrganizationChannels } from "../../redux/reducers/OrganizationSlice";
 import ChatChannel from "../channel/ChatChannel";
 
-const OrganizationChannel = ({}) => {
+const OrganizationChannel = () => {
 	const { defaultOrganization, defaultOrganizationChannels } = useSelector(
 		(state) => state.organization
 	);

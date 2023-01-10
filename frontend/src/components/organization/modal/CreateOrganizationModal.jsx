@@ -17,7 +17,7 @@ const CreateOrganizationModal = () => {
 
 	const handleCreateOrganization = async () => {
 		const data = {
-			organizationName: inputOrganizationName,
+			organization_name: inputOrganizationName,
 		};
 
 		const response = await axios.post("/api/organizations/", data);
@@ -29,17 +29,19 @@ const CreateOrganizationModal = () => {
 				Create Organization
 			</Button>
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
-				<Modal.Header closeButton>
-					<Modal.Title>Create Organization</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<input
-						onChange={(event) => setInputOrganizationName(event.target.value)}
-					/>
-					<button onClick={handleCreateOrganization}>
-						Create Organization
-					</button>
-				</Modal.Body>
+				<div className="customer-modal">
+					<Modal.Header closeButton>
+						<Modal.Title>Create Organization</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<input
+							onChange={(event) => setInputOrganizationName(event.target.value)}
+						/>
+						<button onClick={handleCreateOrganization}>
+							Create Organization
+						</button>
+					</Modal.Body>
+				</div>
 			</Modal>
 		</>
 	);

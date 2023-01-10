@@ -2,9 +2,9 @@ from rest_framework import serializers
 from ..models import (
     User,
     Organization,
-    UserOrganization,
     OrganizationChannel,
-    OrganizationChannelUser,
+    OrganizationMember,
+    OrganizationChannelMember,
 )
 
 
@@ -24,40 +24,39 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+class OrganizationMemberSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = OrganizationMember
+        fields = ["id", "user"]
+
+
+class OrganizationChannelMemberSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = OrganizationChannelMember
+        fields = ["id", "channel", "user"]
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
-    members = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=User.objects.all(),
+    owner = UserSerializer(read_only=True)
+    members = UserSerializer(many=True, read_only=True)
+    channels = serializers.PrimaryKeyRelatedField(
+        many=True, read_only=True, source="channels.all"
     )
 
     class Meta:
         model = Organization
-        fields = ["id", "organization_name", "owner", "members"]
-
-
-class OrganizationOwnerSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-
-    class Meta:
-        model = Organization
-        fields = ["id", "user"]
+        fields = ["id", "organization_name", "owner", "members", "channels"]
 
 
 class OrganizationChannelSerializer(serializers.ModelSerializer):
-    members = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+    organization = OrganizationSerializer(read_only=True)
+    owner = UserSerializer(read_only=True)
+    members = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = OrganizationChannel
-        fields = ["id", "channel_name", "is_private", "organization", "members"]
-
-
-class UserOrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserOrganization
-        fields = ["id", "organization", "user"]
-
-
-class OrganizationChannelUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrganizationChannelUser
-        fields = ["id", "organization_channel", "user"]
+        fields = ["id", "channel_name", "organization", "owner", "members"]

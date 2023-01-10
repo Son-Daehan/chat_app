@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
 	userInfo: JSON.parse(localStorage.getItem("userInfo")) || null,
-	authenticated: JSON.parse(localStorage.getItem("hydrate")) || false,
+	authenticated: JSON.parse(localStorage.getItem("authenticated")) || false,
 	loading: false,
 	error: null,
 	success: false,
@@ -90,6 +90,7 @@ const AuthSlice = createSlice({
 			};
 			state.userInfo = newUserInfo;
 			state.profileImg = `${payload.user_info.profile_img}/`;
+			state.authenticated = true;
 
 			localStorage.setItem(
 				"profileImg",

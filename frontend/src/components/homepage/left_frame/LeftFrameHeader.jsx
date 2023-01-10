@@ -11,18 +11,21 @@ const LeftFrameHeader = () => {
 	const { defaultOrganization, organizations } = useSelector(
 		(state) => state.organization
 	);
+	const { authenticated } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// if (authenticated) {
-		dispatch(retrieveOrganization());
-		// }
-	}, []);
+		if (authenticated) {
+			dispatch(retrieveOrganization());
+		}
+	}, [authenticated]);
 
+	// sets the defaultOrganization to either persisted data in local storage or the first organization in retreived from the list
 	useEffect(() => {
 		if (!defaultOrganization) {
 			try {
-				// sets default to first organization - change later to be based on stored data in localstorage
+				// sets default to first organization - change later to be based on stored data in localstorage, authslice is clearing localstorage so it's not working
+
 				dispatch(setDefaultOrganization(organizations[0]));
 			} catch {
 				dispatch(setDefaultOrganization(null));
@@ -39,7 +42,7 @@ const LeftFrameHeader = () => {
 				>
 					<h3>
 						{defaultOrganization
-							? defaultOrganization.organization.organization_name
+							? defaultOrganization.organization_name
 							: "Create Organization"}
 					</h3>
 				</Dropdown.Toggle>

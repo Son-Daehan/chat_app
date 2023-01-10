@@ -57,65 +57,50 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []  # Email & Password are required by default.
 
 
-class OrganizationOwner(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="organization_owner"
-    )
-
-
-class Channel(models.Model):
-    channel_name = models.CharField(max_length=100)
-    channel_owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="channels"
-    )
-    user = models.ManyToManyField(User, through="UserChannel")
-
-
-class UserChannel(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_channels"
-    )
-    channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, related_name="user_channels"
-    )
+class OrganizationMember(models.Model):
+    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
 
 
 class Organization(models.Model):
     organization_name = models.CharField(max_length=100)
-    owner = models.ForeignKey(
-        OrganizationOwner, on_delete=models.CASCADE, related_name="owned_organizations"
-    )
+    owner = models.ForeignKey("User", on_delete=models.CASCADE)
     members = models.ManyToManyField(
-        User, through="UserOrganization", related_name="organizations"
+        User,
+        through="OrganizationMember",
+        null=True,
+        blank=True,
+        related_name="organization_members",
     )
+    channels = (
+        models.ManyToManyField(
+            "OrganizationChannel", related_name="organization_channels"
+        ),
+    )
+
+
+class OrganizationChannelMember(models.Model):
+    channel = models.ForeignKey(
+        "OrganizationChannel",
+        on_delete=models.CASCADE,
+        related_name="organization_channel_members",
+    )
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
 
 
 class OrganizationChannel(models.Model):
     channel_name = models.CharField(max_length=100)
     is_private = models.BooleanField(default=False)
     organization = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, related_name="organization_channels"
-    )
-    members = models.ManyToManyField(
-        User, through="OrganizationChannelUser", related_name="organization_channels"
-    )
-
-
-class UserOrganization(models.Model):
-    organization = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, related_name="user_organizations"
-    )
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_organizations"
-    )
-
-
-class OrganizationChannelUser(models.Model):
-    organization_channel = models.ForeignKey(
-        OrganizationChannel,
+        "Organization",
         on_delete=models.CASCADE,
-        related_name="organization_channel_users",
+        related_name="organization_channels",
     )
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="organization_channel_users"
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    members = models.ManyToManyField(
+        User,
+        through="OrganizationChannelMember",
+        related_name="organization_channel_members",
+        blank=True,
+        null=True,
     )

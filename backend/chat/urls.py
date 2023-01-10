@@ -9,57 +9,38 @@ urlpatterns = [
     path("login/", views.user_login, name="login"),
     path("logout/", views.user_logout, name="logout"),
     # user
-    path("users/", views.user_list_create_view, name="user_list_create"),
-    path(
-        "users/<int:pk>/",
-        views.user_retrieve_update_destroy_view,
-    ),
+    path("users/", views.users_manage, name="user_list_create"),
+    path("users/<int:pk>/", views.user_manage),
+    path("user/organizations/", views.user_organizations_manage),
     # organization
+    path("organizations/", views.organizations_manage),
+    path("organizations/<int:pk>/", views.organization_manage),
+    # organization members
     path(
-        "organizations/",
-        views.organization_list_create_view,
+        "organization_members/<int:organization_id>/", views.organization_members_manage
     ),
     path(
-        "organizations/<int:pk>/",
-        views.organization_retrieve_update_destroy_view,
-    ),
-    # organization owner
-    path(
-        "organization_owner/",
-        views.organization_owner_list_create_view,
-    ),
-    path(
-        "organization_owner/<int:pk>/",
-        views.organization_owner_retrieve_update_destroy_view,
+        "organization_members/<int:organization_id>/<int:user_id>/",
+        views.organization_member_manage,
     ),
     # organization channel
     path(
-        "organization_channels/",
-        views.organization_channel_list_create_view,
+        "organization_channels/<int:organization_id>/",
+        views.organization_channels_manage,
     ),
     path(
-        "organization_channels/<int:pk>/",
-        views.organization_channel_retrieve_update_destroy_view,
+        "organization_channel/channels/<int:channel_id>/",
+        views.organization_channel_manage,
     ),
-    # organization channel user
+    # organization channel members
     path(
-        "organization_channel_users/",
-        views.organization_channel_user_list_create_view,
+        "organization_channel_members/<int:channel_id>/",
+        views.organization_channel_members_manage,
     ),
-    path(
-        "organization_channel_users/<int:pk>/",
-        views.organization_channel_user_retrieve_update_destroy_view,
-    ),
-    # user organization
-    path(
-        "user_organizations/",
-        views.user_organization_list_create_view,
-    ),
-    path(
-        "user_organizations/<int:pk>/",
-        views.user_organization_retrieve_update_destroy_view,
-    ),
+    # path(
+    #     "organization_channel_member/<int:pk>/",
+    #     views.organization_channel_member_manage,
+    # ),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
 # urlpatterns = format_suffix_patterns(urlpatterns)

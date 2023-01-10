@@ -18,12 +18,13 @@ const CreateOrganizationChannelModal = ({ selectedOrganizationID }) => {
 
 	const handleCreateOrganizationChannel = async () => {
 		const data = {
-			channelName: inputChannelName,
-			channelPrivacy: inputChannelPrivacy,
+			organization_id: selectedOrganizationID,
+			channel_name: inputChannelName,
+			is_private: inputChannelPrivacy,
 		};
 
 		const response = await axios.post(
-			`/api/organization/channel/${selectedOrganizationID}/`,
+			`/api/organization_channels/${selectedOrganizationID}/`,
 			data
 		);
 	};
