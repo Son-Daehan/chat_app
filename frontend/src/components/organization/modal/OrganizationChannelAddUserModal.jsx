@@ -62,7 +62,7 @@ const OrganizationChannelAddUserModal = () => {
 				searchChannelMembers();
 			}
 		}
-	}, [searchInput, displayAddUserTab]);
+	}, [searchInput, displayAddUserTab, defaultOrganization, selectedChannel]);
 
 	return (
 		<>

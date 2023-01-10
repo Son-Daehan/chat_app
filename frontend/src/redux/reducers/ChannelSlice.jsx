@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
 	// loading: false,
 	selectedChannelName: null,
 	selectedChannelSocket: null,
-	defaultChannel: JSON.parse(localStorage.getItem("defaultChannel")) || null,
 	selectedChannel: null,
 };
 

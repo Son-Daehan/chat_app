@@ -4,6 +4,7 @@ import CreateOrganizationChannelModal from "./modal/CreateOrganizationChannelMod
 import CreateOrganizationModal from "./modal/CreateOrganizationModal";
 import OrganizationAddUserModal from "./modal/OrganizationAddUserModal";
 import Dropdown from "react-bootstrap/Dropdown";
+import { setSelectedChannel } from "../../redux/reducers/ChannelSlice";
 
 const Organization = () => {
 	const { organizations, defaultOrganization } = useSelector(
@@ -14,6 +15,7 @@ const Organization = () => {
 
 	const handleSetDefaultOrganization = (organization) => {
 		dispatch(setDefaultOrganization(organization));
+		dispatch(setSelectedChannel(null));
 	};
 
 	return (
@@ -33,11 +35,6 @@ const Organization = () => {
 			<hr />
 			{defaultOrganization && (
 				<div>
-					<Dropdown.Item>
-						<OrganizationAddUserModal
-							selectedOrganizationID={defaultOrganization.id}
-						/>
-					</Dropdown.Item>
 					<Dropdown.Item>
 						<CreateOrganizationChannelModal
 							selectedOrganizationID={defaultOrganization.id}

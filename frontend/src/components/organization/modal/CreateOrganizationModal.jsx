@@ -3,12 +3,16 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch } from "react-redux";
+import { createOrganization } from "../../../redux/reducers/OrganizationSlice";
 
 const CreateOrganizationModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
 	const [fullscreen, setFullscreen] = useState(true);
 	const [show, setShow] = useState(false);
 	const [inputOrganizationName, setInputOrganizationName] = useState(null);
+
+	const dispatch = useDispatch();
 
 	function handleShow(breakpoint) {
 		setFullscreen(breakpoint);
@@ -20,7 +24,7 @@ const CreateOrganizationModal = () => {
 			organization_name: inputOrganizationName,
 		};
 
-		const response = await axios.post("/api/organizations/", data);
+		dispatch(createOrganization(data));
 	};
 
 	return (
@@ -37,7 +41,12 @@ const CreateOrganizationModal = () => {
 						<input
 							onChange={(event) => setInputOrganizationName(event.target.value)}
 						/>
-						<button onClick={handleCreateOrganization}>
+						<button
+							onClick={() => {
+								handleCreateOrganization();
+								setShow(false);
+							}}
+						>
 							Create Organization
 						</button>
 					</Modal.Body>

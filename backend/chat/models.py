@@ -61,6 +61,9 @@ class OrganizationMember(models.Model):
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     user = models.ForeignKey("User", on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ("organization", "user")
+
 
 class Organization(models.Model):
     organization_name = models.CharField(max_length=100)
@@ -86,6 +89,9 @@ class OrganizationChannelMember(models.Model):
         related_name="organization_channel_members",
     )
     user = models.ForeignKey("User", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("channel", "user")
 
 
 class OrganizationChannel(models.Model):

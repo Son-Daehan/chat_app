@@ -237,11 +237,14 @@ def organizations_manage(request):
             }
 
             new_organization = Organization.objects.create(**new_organization_info)
+
             new_organization.members.add(user)
             new_organization.save()
 
+            new_organization_serialized = OrganizationSerializer(new_organization)
+
             # if new_organization_serialized.is_valid():
-            return JsonResponse({"success": True})
+            return JsonResponse({"data": new_organization_serialized.data})
             # else:
             # return JsonResponse({"success": False}, status=404)
 
@@ -390,19 +393,18 @@ def organization_channels_manage(request, organization_id):
                 "owner": user,
             }
 
-            new_organization_channel = OrganizationChannel(
+            new_organization_channel = OrganizationChannel.objects.create(
                 **new_organization_channel_info
             )
+
+            new_organization_channel.members.add(user)
             new_organization_channel.save()
-            new_organization_channel_member = OrganizationChannelMember(
-                channel=new_organization_channel, user=user
+
+            new_organization_channel_serialized = OrganizationChannelSerializer(
+                new_organization_channel
             )
-            new_organization_channel_member.save()
 
-            new_organization_channel.members.add(new_organization_channel_member)
-            new_organization_channel.save()
-
-            return JsonResponse({"success": True})
+            return JsonResponse({"data": new_organization_channel_serialized.data})
         except:
             return JsonResponse({"success": False})
 

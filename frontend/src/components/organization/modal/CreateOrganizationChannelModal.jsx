@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrganizationChannel } from "../../../redux/reducers/OrganizationSlice";
 
 const CreateOrganizationChannelModal = ({ selectedOrganizationID }) => {
 	// const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
@@ -11,6 +13,10 @@ const CreateOrganizationChannelModal = ({ selectedOrganizationID }) => {
 	const [inputChannelName, setInputChannelName] = useState(null);
 	const [inputChannelPrivacy, setInputChannelPrivacy] = useState(false);
 
+	const { defaultOrganization } = useSelector((state) => state.organization);
+
+	const dispatch = useDispatch();
+
 	function handleShow(breakpoint) {
 		setFullscreen(breakpoint);
 		setShow(true);
@@ -18,15 +24,12 @@ const CreateOrganizationChannelModal = ({ selectedOrganizationID }) => {
 
 	const handleCreateOrganizationChannel = async () => {
 		const data = {
-			organization_id: selectedOrganizationID,
+			organization_id: defaultOrganization.id,
 			channel_name: inputChannelName,
 			is_private: inputChannelPrivacy,
 		};
 
-		const response = await axios.post(
-			`/api/organization_channels/${selectedOrganizationID}/`,
-			data
-		);
+		dispatch(createOrganizationChannel(data));
 	};
 
 	return (
@@ -42,7 +45,12 @@ const CreateOrganizationChannelModal = ({ selectedOrganizationID }) => {
 					<input
 						onChange={(event) => setInputChannelName(event.target.value)}
 					/>
-					<button onClick={handleCreateOrganizationChannel}>
+					<button
+						onClick={() => {
+							handleCreateOrganizationChannel();
+							setShow(false);
+						}}
+					>
 						Add a new channel to org
 					</button>
 				</Modal.Body>

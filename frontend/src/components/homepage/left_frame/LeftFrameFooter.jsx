@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { signOut } from "../../../redux/reducers/AuthSlice";
 import ManageProfileModal from "../../account/ManageProfileModal";
+import OrganizationAddUserModal from "../../organization/modal/OrganizationAddUserModal";
 
 const LeftFrameFooter = () => {
 	const { defaultOrganization, organizationUsers } = useSelector(
@@ -25,7 +26,9 @@ const LeftFrameFooter = () => {
 			<div className="homepage-left-frame-footer-wrapper">
 				<div className="homepage-left-frame-footer-user-icon-container">
 					{defaultOrganization?.members?.length}
-					<FaUsersCog style={{ height: "35px", width: "35px" }} />
+					<OrganizationAddUserModal
+						selectedOrganizationID={defaultOrganization.id}
+					/>
 				</div>
 				<ManageProfileModal />
 				<div

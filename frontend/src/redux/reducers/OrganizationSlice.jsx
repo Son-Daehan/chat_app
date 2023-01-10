@@ -85,16 +85,52 @@ export const organizationChannelAddUser = createAsyncThunk(
 	}
 );
 
+// create a new organization
+export const createOrganization = createAsyncThunk(
+	"createOrganization",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.post("/api/organizations/", data);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// create a new organization channel
+export const createOrganizationChannel = createAsyncThunk(
+	"createOrganizationChannel",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.post(
+				`/api/organization_channels/${data.organization_id}/`,
+				data
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
 const OrganizationSlice = createSlice({
 	name: "organization",
 	initialState,
 	reducers: {
 		setDefaultOrganization: (state, action) => {
-			state.defaultOrganization = action.payload;
-			localStorage.setItem(
-				"defaultOrganization",
-				JSON.stringify(action.payload)
-			);
+			if (action.payload) {
+				state.defaultOrganization = action.payload;
+				localStorage.setItem(
+					"defaultOrganization",
+					JSON.stringify(action.payload)
+				);
+			} else {
+				state.defaultOrganization = null;
+				localStorage.removeItem("defaultOrganization");
+			}
 		},
 		handleDisplayOrganizationSettings: (state) => {
 			if (state.displayOrganizationSettings) {
@@ -129,6 +165,29 @@ const OrganizationSlice = createSlice({
 		[organizationChannelAddUser.pending]: (state) => {},
 		[organizationChannelAddUser.fulfilled]: (state, action) => {},
 		[organizationChannelAddUser.rejected]: (state, action) => {},
+		[createOrganizationChannel.pending]: (state) => {},
+		[createOrganizationChannel.fulfilled]: (state, action) => {
+			if (state.defaultOrganization) {
+				state.defaultOrganizationChannels.push(action.payload.data);
+			} else {
+				state.defaultOrganizationChannels = action.payload.data;
+			}
+		},
+		[createOrganizationChannel.rejected]: (state, action) => {},
+		[createOrganization.pending]: (state) => {},
+		[createOrganization.fulfilled]: (state, action) => {
+			state.defaultOrganization = action.payload.data;
+			if (state.organizations) {
+				state.organizations.push(action.payload.data);
+			} else {
+				state.organizations = action.payload.data;
+			}
+			localStorage.setItem(
+				"defaultOrganization",
+				JSON.stringify(action.payload.data)
+			);
+		},
+		[createOrganization.rejected]: (state, action) => {},
 	},
 });
 

@@ -4,9 +4,6 @@ import OrganizationChannelAddUserModal from "../../organization/modal/Organizati
 
 const MiddleFrameHeader = () => {
 	const { selectedChannel } = useSelector((state) => state.channel);
-	const { selectedOrganizationChannelUsers } = useSelector(
-		(state) => state.organization
-	);
 
 	return (
 		<div className="homepage-middle-frame-header-container homepage-header-container">

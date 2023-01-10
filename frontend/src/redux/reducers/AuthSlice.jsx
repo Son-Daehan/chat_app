@@ -64,7 +64,12 @@ const AuthSlice = createSlice({
 	initialState,
 	reducers: {
 		signOut: (state) => {
-			localStorage.clear();
+			// localStorage.clear();
+			localStorage.removeItem("loading");
+			localStorage.removeItem("userInfo");
+			localStorage.removeItem("error");
+			localStorage.removeItem("profileImg");
+			localStorage.removeItem("authenticated");
 			state.loading = false;
 			state.userInfo = null;
 			state.error = null;

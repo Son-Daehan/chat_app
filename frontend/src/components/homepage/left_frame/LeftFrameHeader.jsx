@@ -28,10 +28,11 @@ const LeftFrameHeader = () => {
 
 				dispatch(setDefaultOrganization(organizations[0]));
 			} catch {
-				dispatch(setDefaultOrganization(null));
+				// dispatch(setDefaultOrganization(null));
+				localStorage.removeItem("defaultOrganization");
 			}
 		}
-	}, [defaultOrganization]);
+	}, [organizations]);
 
 	return (
 		<div className="homepage-left-frame-header-container homepage-header-container">
