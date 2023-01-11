@@ -84,6 +84,24 @@ export const organizationAddUser = createAsyncThunk(
 	}
 );
 
+// Remove users from the selected organization
+export const organizationRemoveUser = createAsyncThunk(
+	"organizationRemoveUser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete(
+				`/api/organization_members/${data.organizationID}/${data.userID}/`
+			);
+			console.log(data);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// Add organization member to the organization channel
 export const organizationChannelAddUser = createAsyncThunk(
 	"organizationChannelAddUser",
 	async (data, { rejectWithValue }) => {
@@ -91,6 +109,22 @@ export const organizationChannelAddUser = createAsyncThunk(
 			const response = await axios.post(
 				`/api/organization_channel_members/${data.channelID}/`,
 				{ username: data.username }
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// Remove organization member from the organization channel
+export const organizationChannelRemoveUser = createAsyncThunk(
+	"organizationChannelRemoveUser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete(
+				`/api/organization_channel_member/${data.channelID}/${data.userID}/`
 			);
 
 			return response.data;

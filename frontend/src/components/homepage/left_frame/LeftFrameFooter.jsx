@@ -6,6 +6,7 @@ import axios from "axios";
 import { signOut } from "../../../redux/reducers/AuthSlice";
 import ManageProfileModal from "../../account/ManageProfileModal";
 import OrganizationAddUserModal from "../../organization/modal/OrganizationAddUserModal";
+import OrganizationManagementModal from "../../organization/modal/OrganizationManagementModal";
 
 const LeftFrameFooter = () => {
 	const { defaultOrganization, organizationUsers } = useSelector(
@@ -26,9 +27,8 @@ const LeftFrameFooter = () => {
 			<div className="homepage-left-frame-footer-wrapper">
 				<div className="homepage-left-frame-footer-user-icon-container">
 					{defaultOrganization?.members?.length}
-					<OrganizationAddUserModal
-						selectedOrganizationID={defaultOrganization?.id}
-					/>
+					<OrganizationManagementModal />
+					<OrganizationAddUserModal />
 				</div>
 				<ManageProfileModal />
 				<div

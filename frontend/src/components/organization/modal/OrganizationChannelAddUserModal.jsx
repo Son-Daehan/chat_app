@@ -4,9 +4,9 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import { organizationChannelAddUser } from "../../../redux/reducers/OrganizationSlice";
-import { IoIosPeople } from "react-icons/io";
-import { useEffect } from "react";
+import { IoMdPersonAdd } from "react-icons/io";
 import "./modal.css";
+import { updateSelectedChannel } from "../../../redux/reducers/ChannelSlice";
 
 const OrganizationChannelAddUserModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
@@ -14,10 +14,6 @@ const OrganizationChannelAddUserModal = () => {
 	const [show, setShow] = useState(false);
 	const [searchInput, setSearchInput] = useState("");
 	const { selectedChannel } = useSelector((state) => state.channel);
-	const { defaultOrganization } = useSelector((state) => state.organization);
-	const [queryAllMembers, setQueryAllMembers] = useState("");
-	const [queryChannelMembers, setQueryChannelMembers] = useState("");
-	const [displayAddUserTab, setDisplayAddUserTab] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -26,48 +22,22 @@ const OrganizationChannelAddUserModal = () => {
 		setShow(true);
 	}
 
-	const handleOrganizationChannelAddUser = (username) => {
+	const handleOrganizationChannelAddUser = async (event) => {
+		event.preventDefault();
 		const data = {
 			channelID: selectedChannel.id,
-			username: username,
+			username: searchInput,
 		};
 
-		dispatch(organizationChannelAddUser(data));
+		await dispatch(organizationChannelAddUser(data));
+		dispatch(updateSelectedChannel(selectedChannel.id));
+		setShow(false);
 	};
-
-	const searchAllMembers = () => {
-		const response = defaultOrganization.members.filter((member) =>
-			member.username.includes(searchInput)
-		);
-		setQueryAllMembers(response);
-	};
-	const searchChannelMembers = () => {
-		const response = selectedChannel.members.filter((member) =>
-			member.username.includes(searchInput)
-		);
-		setQueryChannelMembers(response);
-	};
-
-	useEffect(() => {
-		if (displayAddUserTab) {
-			if (queryAllMembers === "") {
-				setQueryAllMembers(defaultOrganization.members);
-			} else {
-				searchAllMembers();
-			}
-		} else if (!displayAddUserTab) {
-			if (queryChannelMembers === "") {
-				setQueryChannelMembers(selectedChannel.members);
-			} else {
-				searchChannelMembers();
-			}
-		}
-	}, [searchInput, displayAddUserTab, defaultOrganization, selectedChannel]);
 
 	return (
 		<>
 			<Button className="me-2 mb-2" onClick={() => handleShow("md-down")}>
-				<IoIosPeople
+				<IoMdPersonAdd
 					style={{
 						height: "45px",
 						width: "45px",
@@ -77,30 +47,16 @@ const OrganizationChannelAddUserModal = () => {
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
 				<div className="custom-modal">
 					<Modal.Header closeButton>
-						<Modal.Title>Channel Users</Modal.Title>
+						<Modal.Title>Channel Management</Modal.Title>
 					</Modal.Header>
 					<Modal.Body
 						style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}
 					>
 						<div className="organization-channel-add-modal-button-container">
-							<button
-								onClick={() => {
-									setDisplayAddUserTab(true);
-									setSearchInput("");
-								}}
-							>
-								Add
-							</button>
-							<button
-								onClick={() => {
-									setDisplayAddUserTab(false);
-									setSearchInput("");
-								}}
-							>
-								Remove
-							</button>
+							<h4>Add users to the channel</h4>
 						</div>
-						<div
+						<form
+							onSubmit={handleOrganizationChannelAddUser}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -114,46 +70,9 @@ const OrganizationChannelAddUserModal = () => {
 								placeholder="Search for a user..."
 								className="input-container"
 							/>
-						</div>
+							<button type="submit">+</button>
+						</form>
 						<hr />
-						<div className="organization-channel-add-modal-user-list-container">
-							{displayAddUserTab
-								? queryAllMembers &&
-								  queryAllMembers?.map((member) => (
-										<div className="organization-channel-add-modal-user-container">
-											<div>
-												{member.first_name} {member.last_name}
-											</div>
-											<div>{member.email}</div>
-											<button
-												onClick={() =>
-													handleOrganizationChannelAddUser(member.username)
-												}
-											>
-												+
-											</button>
-										</div>
-								  ))
-								: queryChannelMembers &&
-								  queryChannelMembers?.map((member) => (
-										<div className="organization-channel-add-modal-user-container">
-											<div>Image</div>
-											<div>
-												<div>
-													{member.first_name} {member.last_name}
-												</div>
-												<div>{member.email}</div>
-											</div>
-											<button
-												onClick={() =>
-													handleOrganizationChannelAddUser(member.username)
-												}
-											>
-												+
-											</button>
-										</div>
-								  ))}
-						</div>
 					</Modal.Body>
 				</div>
 			</Modal>

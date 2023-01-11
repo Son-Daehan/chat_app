@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import OrganizationChannelAddUserModal from "../../organization/modal/OrganizationChannelAddUserModal";
+import OrganizationChannelManagementModal from "../../organization/modal/OrganizationChannelManagementModal";
 
 const MiddleFrameHeader = () => {
 	const { selectedChannel } = useSelector((state) => state.channel);
@@ -13,6 +14,7 @@ const MiddleFrameHeader = () => {
 			<div className="homepage-middle-frame-channel-user-container">
 				{selectedChannel?.members?.length}
 
+				<OrganizationChannelManagementModal />
 				<OrganizationChannelAddUserModal />
 			</div>
 		</div>

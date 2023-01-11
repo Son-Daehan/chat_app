@@ -37,10 +37,10 @@ urlpatterns = [
         "organization_channel_members/<int:channel_id>/",
         views.organization_channel_members_manage,
     ),
-    # path(
-    #     "organization_channel_member/<int:pk>/",
-    #     views.organization_channel_member_manage,
-    # ),
+    path(
+        "organization_channel_member/<int:channel_id>/<int:user_id>/",
+        views.organization_channel_member_manage,
+    ),
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

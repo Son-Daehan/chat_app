@@ -321,8 +321,8 @@ def organization_members_manage(request, organization_id):
 
 
 @api_view(["GET", "POST", "PUT", "DELETE"])
-def organization_member_manage(request, organization_id):
-
+def organization_member_manage(request, organization_id, user_id):
+    print("deleting in progress")
     organization = Organization.objects.get(pk=organization_id)
 
     if request.method == "GET":
@@ -359,10 +359,17 @@ def organization_member_manage(request, organization_id):
     #         return JsonResponse(serializer.data, safe=False)
     #     return JsonResponse(serializer.errors, status=400)
 
-    # elif request.method == "DELETE":
-    #     # Delete an existing organization channel
-    #     organization_channel.delete()
-    #     return JsonResponse({"success": True}, status=204)
+    elif request.method == "DELETE":
+        # Delete an existing organization channel
+        print("deleting")
+        organization = Organization.objects.get(pk=organization_id)
+        user = User.objects.get(pk=user_id)
+        organization_member = OrganizationMember.objects.get(
+            organization=organization, user=user
+        )
+        print(organization_member)
+        organization_member.delete()
+        return JsonResponse({"success": True}, status=204)
 
 
 #######################################################################################
@@ -416,16 +423,17 @@ def organization_channels_manage(request, organization_id):
 def organization_channel_manage(request, channel_id):
 
     # organization = Organization.objects.get(pk=organization_id)
+    print("working getting updated")
 
     if request.method == "GET":
         # Return a single organization channel user
-        organization_channel = OrganizationChannel.objects.filter(pk=channel_id)
+        organization_channel = OrganizationChannel.objects.get(pk=channel_id)
 
-        organization_channels_serialized = OrganizationChannelSerializer(
+        organization_channel_serialized = OrganizationChannelSerializer(
             organization_channel
         )
 
-        return JsonResponse({"data": organization_channels_serialized.data}, safe=False)
+        return JsonResponse({"data": organization_channel_serialized.data}, safe=False)
 
     # elif request.method == "PUT":
     #     # Update an existing organization channel user
@@ -495,11 +503,11 @@ def organization_channel_members_manage(request, channel_id):
 
 
 @api_view(["GET", "POST", "PUT", "DELETE"])
-def organization_channel_member_manage(request, pk):
+def organization_channel_member_manage(request, channel_id, user_id):
 
-    organization_channel = OrganizationChannel.objects.get(pk=pk)
+    channel = OrganizationChannel.objects.get(pk=channel_id)
+    user = User.objects.get(pk=user_id)
 
-    pass
     # if request.method == "GET":
     #     # Return a single user organization
     #     serializer = UserOrganizationSerializer(user_organization)
@@ -513,7 +521,10 @@ def organization_channel_member_manage(request, pk):
     #         return JsonResponse(serializer.data, safe=False)
     #     return JsonResponse(serializer.errors, status=400)
 
-    # elif request.method == "DELETE":
-    #     # Delete an existing user organization
-    #     user_organization.delete()
-    #     return JsonResponse({"success": True}, status=204)
+    if request.method == "DELETE":
+        organization_channel_member = OrganizationChannelMember.objects.get(
+            channel=channel, user=user
+        )
+        organization_channel_member.delete()
+
+        return JsonResponse({"success": True}, status=204)
