@@ -8,6 +8,7 @@ const initialState = {
 	error: null,
 	success: false,
 	profileImg: JSON.parse(localStorage.getItem("profileImg")) || null,
+	allUsers: null,
 };
 
 export const signUp = createAsyncThunk(
@@ -53,6 +54,18 @@ export const imageUpload = createAsyncThunk(
 				data
 			);
 			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const retrieveAllUsers = createAsyncThunk(
+	"retrieveAllUsers",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.get("/api/users/");
+			return response.data.data;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
@@ -130,6 +143,11 @@ const AuthSlice = createSlice({
 			localStorage.setItem("profileImg", JSON.stringify(state.profileImg));
 		},
 		[imageUpload.rejected]: (state, { payload }) => {},
+		[retrieveAllUsers.pending]: (state, action) => {},
+		[retrieveAllUsers.fulfilled]: (state, action) => {
+			state.allUsers = action.payload;
+		},
+		[retrieveAllUsers.rejected]: (state, { payload }) => {},
 	},
 });
 

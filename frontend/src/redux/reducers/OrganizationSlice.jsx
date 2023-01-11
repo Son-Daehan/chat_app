@@ -19,6 +19,21 @@ export const retrieveOrganization = createAsyncThunk(
 	async (data, { rejectWithValue }) => {
 		try {
 			const response = await axios.get("/api/user/organizations/");
+			console.log(response.data.data);
+			return response.data.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// get single organization based on the user's selected organization
+export const retrieveSingleOrganization = createAsyncThunk(
+	"retrieveSingleOrganization",
+	async (data, { rejectWithValue }) => {
+		console.log(data);
+		try {
+			const response = await axios.get(`/api/organizations/${data}/`);
 			return response.data.data;
 		} catch (error) {
 			return rejectWithValue(error);
@@ -122,6 +137,7 @@ const OrganizationSlice = createSlice({
 	reducers: {
 		setDefaultOrganization: (state, action) => {
 			if (action.payload) {
+				console.log(action.payload);
 				state.defaultOrganization = action.payload;
 				localStorage.setItem(
 					"defaultOrganization",
@@ -143,15 +159,15 @@ const OrganizationSlice = createSlice({
 	},
 	extraReducers: {
 		[retrieveOrganization.pending]: (state) => {
-			console.log("pending works");
+			console.log("pending works org");
 		},
 		[retrieveOrganization.fulfilled]: (state, action) => {
-			console.log(action.payload);
+			console.log("yes");
 			state.organizations = action.payload;
 		},
 		[retrieveOrganization.rejected]: (state, action) => {
-			console.log("retrieve failed");
-			console.log("rejected works");
+			console.log("retrieve failed org");
+			console.log("rejected works org");
 		},
 		[retrieveOrganizationChannels.pending]: (state) => {
 			console.log("pending works");
@@ -188,6 +204,16 @@ const OrganizationSlice = createSlice({
 			);
 		},
 		[createOrganization.rejected]: (state, action) => {},
+		[retrieveSingleOrganization.pending]: (state) => {},
+		[retrieveSingleOrganization.fulfilled]: (state, action) => {
+			state.defaultOrganization = action.payload;
+			console.log(action.payload);
+			localStorage.setItem(
+				"defaultOrganization",
+				JSON.stringify(action.payload)
+			);
+		},
+		[retrieveSingleOrganization.rejected]: (state, action) => {},
 	},
 });
 

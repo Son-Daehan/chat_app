@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch } from "react-redux";
 import { createOrganization } from "../../../redux/reducers/OrganizationSlice";
+import "./modal.css";
 
 const CreateOrganizationModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
@@ -33,22 +34,29 @@ const CreateOrganizationModal = () => {
 				Create Organization
 			</Button>
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
-				<div className="customer-modal">
+				<div className="custom-modal">
 					<Modal.Header closeButton>
 						<Modal.Title>Create Organization</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<input
-							onChange={(event) => setInputOrganizationName(event.target.value)}
-						/>
-						<button
-							onClick={() => {
-								handleCreateOrganization();
-								setShow(false);
-							}}
-						>
-							Create Organization
-						</button>
+						<div className="organization-create-modal-bottom-wrapper">
+							<input
+								placeholder="Enter a new organization..."
+								onChange={(event) =>
+									setInputOrganizationName(event.target.value)
+								}
+							/>
+							<div className="organization-create-modal-button">
+								<button
+									onClick={() => {
+										handleCreateOrganization();
+										setShow(false);
+									}}
+								>
+									Create Organization
+								</button>
+							</div>
+						</div>
 					</Modal.Body>
 				</div>
 			</Modal>

@@ -27,7 +27,7 @@ const LeftFrameFooter = () => {
 				<div className="homepage-left-frame-footer-user-icon-container">
 					{defaultOrganization?.members?.length}
 					<OrganizationAddUserModal
-						selectedOrganizationID={defaultOrganization.id}
+						selectedOrganizationID={defaultOrganization?.id}
 					/>
 				</div>
 				<ManageProfileModal />

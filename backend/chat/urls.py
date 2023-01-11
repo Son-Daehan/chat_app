@@ -14,7 +14,7 @@ urlpatterns = [
     path("user/organizations/", views.user_organizations_manage),
     # organization
     path("organizations/", views.organizations_manage),
-    path("organizations/<int:pk>/", views.organization_manage),
+    path("organizations/<int:organization_id>/", views.organization_manage),
     # organization members
     path(
         "organization_members/<int:organization_id>/", views.organization_members_manage

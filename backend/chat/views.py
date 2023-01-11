@@ -152,15 +152,15 @@ def users_manage(request):
     if request.method == "GET":
         # Return a list of users
         users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        users_serialized = UserSerializer(users, many=True)
+        print(users_serialized.data)
 
-        return JsonResponse(serializer.data, safe=False)
+        return JsonResponse({"data": users_serialized.data}, safe=False)
 
     elif request.method == "POST":
         # Create a new user
         try:
             data = request.data
-            print(data)
             new_user = User.objects.create_user(**data)
             new_user.save()
 
@@ -219,6 +219,7 @@ def user_organizations_manage(request):
 
 @api_view(["GET", "POST"])
 def organizations_manage(request):
+    print("why?")
     if request.method == "GET":
         # Return a list of organization
         organizations = Organization.objects.all()
@@ -265,16 +266,18 @@ def organizations_manage(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def organization_manage(request, pk):
-    try:
-        organization = Organization.objects.get(pk=pk)
-    except Organization.DoesNotExist:
-        raise Http404
-
+def organization_manage(request, organization_id):
+    print("working")
     if request.method == "GET":
-        # Return a single organization
-        serializer = OrganizationSerializer(organization)
-        return JsonResponse(serializer.data, safe=False)
+        organization = Organization.objects.get(pk=organization_id)
+        organization_serialized = OrganizationSerializer(organization)
+        print(organization_serialized.data)
+        return JsonResponse({"data": organization_serialized.data})
+
+    # if request.method == "GET":
+    #     # Return a single organization
+    #     serializer = OrganizationSerializer(organization)
+    #     return JsonResponse(serializer.data, safe=False)
 
     # elif request.method == "PUT":
     #     # Update an existing organization
