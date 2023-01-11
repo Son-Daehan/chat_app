@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import OrganizationChannelAddUserModal from "../../organization/modal/OrganizationChannelAddUserModal";
-import OrganizationChannelManagementModal from "../../organization/modal/OrganizationChannelManagementModal";
+import OrganizationChannelAddUserModal from "../../organization/modal/organization_channel/OrganizationChannelAddUserModal";
+import OrganizationChannelManagementModal from "../../organization/modal/organization_channel/OrganizationChannelManagementModal";
 
 const MiddleFrameHeader = () => {
 	const { selectedChannel } = useSelector((state) => state.channel);

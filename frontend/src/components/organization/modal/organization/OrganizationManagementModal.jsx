@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	organizationRemoveUser,
 	retrieveSingleOrganization,
-} from "../../../redux/reducers/OrganizationSlice";
+} from "../../../../redux/reducers/OrganizationSlice";
 import { FaUsersCog } from "react-icons/fa";
 
 const OrganizationManagementModal = () => {

@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrganizationChannel } from "../../../redux/reducers/OrganizationSlice";
+import { createOrganizationChannel } from "../../../../redux/reducers/OrganizationSlice";
 
 const CreateOrganizationChannelModal = () => {
 	// const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];

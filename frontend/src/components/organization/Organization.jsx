@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setDefaultOrganization } from "../../redux/reducers/OrganizationSlice";
-import CreateOrganizationChannelModal from "./modal/CreateOrganizationChannelModal";
-import CreateOrganizationModal from "./modal/CreateOrganizationModal";
-import OrganizationAddUserModal from "./modal/OrganizationAddUserModal";
+import CreateOrganizationChannelModal from "./modal/organization_channel/CreateOrganizationChannelModal";
+import CreateOrganizationModal from "./modal/organization/CreateOrganizationModal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { setSelectedChannel } from "../../redux/reducers/ChannelSlice";
 

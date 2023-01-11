@@ -4,8 +4,8 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch } from "react-redux";
-import { createOrganization } from "../../../redux/reducers/OrganizationSlice";
-import "./modal.css";
+import { createOrganization } from "../../../../redux/reducers/OrganizationSlice";
+import "../modal.css";
 
 const CreateOrganizationModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];

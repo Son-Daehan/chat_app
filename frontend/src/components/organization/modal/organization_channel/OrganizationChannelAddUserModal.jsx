@@ -3,10 +3,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
-import { organizationChannelAddUser } from "../../../redux/reducers/OrganizationSlice";
+import { organizationChannelAddUser } from "../../../../redux/reducers/OrganizationSlice";
 import { IoMdPersonAdd } from "react-icons/io";
-import "./modal.css";
-import { updateSelectedChannel } from "../../../redux/reducers/ChannelSlice";
+import "../modal.css";
+import { updateSelectedChannel } from "../../../../redux/reducers/ChannelSlice";
 
 const OrganizationChannelAddUserModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];

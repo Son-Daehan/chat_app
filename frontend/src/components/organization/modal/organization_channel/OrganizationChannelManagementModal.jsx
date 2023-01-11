@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	organizationChannelAddUser,
 	organizationChannelRemoveUser,
-} from "../../../redux/reducers/OrganizationSlice";
+} from "../../../../redux/reducers/OrganizationSlice";
 import { IoIosPeople } from "react-icons/io";
 import { useEffect } from "react";
-import "./modal.css";
-import { updateSelectedChannel } from "../../../redux/reducers/ChannelSlice";
+import "../modal.css";
+import { updateSelectedChannel } from "../../../../redux/reducers/ChannelSlice";
 
 const OrganizationChannelManagementModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];

@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { signOut } from "../../../redux/reducers/AuthSlice";
 import ManageProfileModal from "../../account/ManageProfileModal";
-import OrganizationAddUserModal from "../../organization/modal/OrganizationAddUserModal";
-import OrganizationManagementModal from "../../organization/modal/OrganizationManagementModal";
+import OrganizationAddUserModal from "../../organization/modal/organization/OrganizationAddUserModal";
+import OrganizationManagementModal from "../..//organization/modal/organization/OrganizationManagementModal";
 
 const LeftFrameFooter = () => {
 	const { defaultOrganization, organizationUsers } = useSelector(

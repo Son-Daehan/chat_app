@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	organizationAddUser,
 	retrieveSingleOrganization,
-} from "../../../redux/reducers/OrganizationSlice";
+} from "../../../../redux/reducers/OrganizationSlice";
 import { IoMdPersonAdd } from "react-icons/io";
 
 const OrganizationAddUserModal = () => {
