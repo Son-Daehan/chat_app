@@ -85,3 +85,9 @@ button {
   } */
 
 
+
+
+  ::-webkit-scrollbar{
+    width:5px;
+    background-color: rgba(49, 48, 48, 0.303);
+}

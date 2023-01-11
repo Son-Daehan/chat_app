@@ -29,19 +29,6 @@ const OrganizationChannelManagementModal = () => {
 		setShow(true);
 	}
 
-	const handleOrganizationChannelAddUser = async (username) => {
-		const data = {
-			channelID: selectedChannel.id,
-			username: username,
-		};
-
-		await dispatch(organizationChannelAddUser(data));
-		console.log(selectedChannel.id);
-		dispatch(updateSelectedChannel(selectedChannel.id));
-		setQueryAllMembers("");
-		setQueryChannelMembers("");
-	};
-
 	const handleOrganizationChannelRemoveUser = async (userID) => {
 		const data = {
 			channelID: selectedChannel.id,

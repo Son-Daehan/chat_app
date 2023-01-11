@@ -6,6 +6,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 urlpatterns = [
     path("chat/chat_log/", views.manage_chat_log, name="items"),
     path("chat/chat_log/<str:room_name>/", views.chat_log, name="chat_log"),
+    path("accounts/image_upload/", views.image_upload),
     path("login/", views.user_login, name="login"),
     path("logout/", views.user_logout, name="logout"),
     # user
