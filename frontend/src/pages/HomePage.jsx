@@ -4,7 +4,7 @@ import HomePageMiddleFrame from "../components/homepage/middle_frame/HomePageMid
 import HomePageMiddleFrameAlternative from "../components/homepage/middle_frame/HomePageMiddleFrameAlternative";
 import "./homepage.css";
 
-const HomePage2 = () => {
+const HomePage = () => {
 	const { selectedChannel } = useSelector((state) => state.channel);
 
 	return (
@@ -25,4 +25,4 @@ const HomePage2 = () => {
 	);
 };
 
-export default HomePage2;
+export default HomePage;

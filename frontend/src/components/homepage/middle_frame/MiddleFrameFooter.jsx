@@ -16,7 +16,7 @@ const MiddleFrameFooter = () => {
 		event.target.reset();
 
 		const message_data = {
-			room_name: `${defaultOrganization.organization.organization_name}_${selectedChannel.channel_name}`,
+			room_name: `${defaultOrganization.organization_name}_${selectedChannel.channel_name}`,
 			user: userInfo.email,
 			message: inputMessage,
 		};

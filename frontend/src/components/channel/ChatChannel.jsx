@@ -4,7 +4,6 @@ import {
 	connectChannel,
 	setSelectedChannel,
 } from "../../redux/reducers/ChannelSlice";
-import { retrieveOrganizationChannelUsers } from "../../redux/reducers/OrganizationSlice";
 
 const ChatChannel = ({ organizationChannel, channelName }) => {
 	const { selectedChannel, selectedChannelSocket } = useSelector(
@@ -22,7 +21,7 @@ const ChatChannel = ({ organizationChannel, channelName }) => {
 		const newSocket = new WebSocket(
 			`ws://` +
 				window.location.host +
-				`/ws/chat/${defaultOrganization.organization.organization_name}_${channelName}/`
+				`/ws/chat/${defaultOrganization.organization_name}_${channelName}/`
 		);
 
 		dispatch(
@@ -30,13 +29,6 @@ const ChatChannel = ({ organizationChannel, channelName }) => {
 		);
 		dispatch(setSelectedChannel(organizationChannel));
 	};
-
-	// MOVE TO MIDDLE FRAME HEADER
-	useEffect(() => {
-		if (selectedChannel) {
-			dispatch(retrieveOrganizationChannelUsers(selectedChannel.id));
-		}
-	}, [selectedChannel]);
 
 	return (
 		<div onClick={handleCreateSocket}>

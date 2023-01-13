@@ -10,13 +10,16 @@ const initialState = {
 	displayOrganizationSettings: false,
 	organizationUsers: null,
 	selectedOrganizationChannelUsers: null,
+	organizationChannels: null,
 };
 
+// get all organizations that the user belongs to
 export const retrieveOrganization = createAsyncThunk(
 	"retrieveOrganization",
 	async (data, { rejectWithValue }) => {
 		try {
-			const response = await axios.get("/api/organizations/");
+			const response = await axios.get("/api/user/organizations/");
+			console.log(response.data.data);
 			return response.data.data;
 		} catch (error) {
 			return rejectWithValue(error);
@@ -24,6 +27,21 @@ export const retrieveOrganization = createAsyncThunk(
 	}
 );
 
+// get single organization based on the user's selected organization
+export const retrieveSingleOrganization = createAsyncThunk(
+	"retrieveSingleOrganization",
+	async (data, { rejectWithValue }) => {
+		console.log(data);
+		try {
+			const response = await axios.get(`/api/organizations/${data}/`);
+			return response.data.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// get all channels on the selected organization
 export const retrieveOrganizationChannels = createAsyncThunk(
 	"retrieveOrganizationChannels",
 	async (organizationID, { getState, rejectWithValue }) => {
@@ -31,13 +49,13 @@ export const retrieveOrganizationChannels = createAsyncThunk(
 		try {
 			if (state.defaultOrganizationID) {
 				const response = await axios.get(
-					`/api/organization/channel/${state.defaultOrganizationID}/`
+					`/api/organization_channels/${state.defaultOrganizationID}/`
 				);
 
 				return response.data.data;
 			} else {
 				const response = await axios.get(
-					`/api/organization/channel/${organizationID}/`
+					`/api/organization_channels/${organizationID}/`
 				);
 				console.log(response.data.data);
 
@@ -49,12 +67,13 @@ export const retrieveOrganizationChannels = createAsyncThunk(
 	}
 );
 
+// Add users to the selected organization
 export const organizationAddUser = createAsyncThunk(
 	"organizationAddUser",
 	async (data, { rejectWithValue }) => {
 		try {
 			const response = await axios.post(
-				`/api/organization/add_user/${data.organizationID}/`,
+				`/api/organization_members/${data.organizationID}/`,
 				{ username: data.username }
 			);
 
@@ -65,13 +84,15 @@ export const organizationAddUser = createAsyncThunk(
 	}
 );
 
-export const retrieveOrganizationUsers = createAsyncThunk(
-	"retrieveOrganizationUsers",
-	async (organizationID, { rejectWithValue }) => {
+// Remove users from the selected organization
+export const organizationRemoveUser = createAsyncThunk(
+	"organizationRemoveUser",
+	async (data, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(
-				`/api/organization/add_user/${organizationID}/`
+			const response = await axios.delete(
+				`/api/organization_members/${data.organizationID}/${data.userID}/`
 			);
+			console.log(data);
 
 			return response.data;
 		} catch (error) {
@@ -80,28 +101,61 @@ export const retrieveOrganizationUsers = createAsyncThunk(
 	}
 );
 
-export const retrieveOrganizationChannelUsers = createAsyncThunk(
-	"retrieveOrganizationChannelUsers",
-	async (organizationChannelID, { rejectWithValue }) => {
-		try {
-			const response = await axios.get(
-				`/api/organization/channel/users/${organizationChannelID}/`
-			);
-
-			return response.data;
-		} catch (error) {
-			return rejectWithValue(error);
-		}
-	}
-);
-
+// Add organization member to the organization channel
 export const organizationChannelAddUser = createAsyncThunk(
 	"organizationChannelAddUser",
 	async (data, { rejectWithValue }) => {
 		try {
 			const response = await axios.post(
-				`/api/organization/channel/users/${data.channelID}/`,
+				`/api/organization_channel_members/${data.channelID}/`,
 				{ username: data.username }
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// Remove organization member from the organization channel
+export const organizationChannelRemoveUser = createAsyncThunk(
+	"organizationChannelRemoveUser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete(
+				`/api/organization_channel_member/${data.channelID}/${data.userID}/`
+			);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// create a new organization
+export const createOrganization = createAsyncThunk(
+	"createOrganization",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.post("/api/organizations/", data);
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+// create a new organization channel
+export const createOrganizationChannel = createAsyncThunk(
+	"createOrganizationChannel",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axios.post(
+				`/api/organization_channels/${data.organization_id}/`,
+				data
 			);
 
 			return response.data;
@@ -116,11 +170,17 @@ const OrganizationSlice = createSlice({
 	initialState,
 	reducers: {
 		setDefaultOrganization: (state, action) => {
-			state.defaultOrganization = action.payload;
-			localStorage.setItem(
-				"defaultOrganization",
-				JSON.stringify(action.payload)
-			);
+			if (action.payload) {
+				console.log(action.payload);
+				state.defaultOrganization = action.payload;
+				localStorage.setItem(
+					"defaultOrganization",
+					JSON.stringify(action.payload)
+				);
+			} else {
+				state.defaultOrganization = null;
+				localStorage.removeItem("defaultOrganization");
+			}
 		},
 		handleDisplayOrganizationSettings: (state) => {
 			if (state.displayOrganizationSettings) {
@@ -133,13 +193,15 @@ const OrganizationSlice = createSlice({
 	},
 	extraReducers: {
 		[retrieveOrganization.pending]: (state) => {
-			console.log("pending works");
+			console.log("pending works org");
 		},
 		[retrieveOrganization.fulfilled]: (state, action) => {
+			console.log("yes");
 			state.organizations = action.payload;
 		},
 		[retrieveOrganization.rejected]: (state, action) => {
-			console.log("rejected works");
+			console.log("retrieve failed org");
+			console.log("rejected works org");
 		},
 		[retrieveOrganizationChannels.pending]: (state) => {
 			console.log("pending works");
@@ -150,19 +212,42 @@ const OrganizationSlice = createSlice({
 		[retrieveOrganizationChannels.rejected]: (state, action) => {
 			console.log("rejected works");
 		},
-		[retrieveOrganizationUsers.pending]: (state) => {},
-		[retrieveOrganizationUsers.fulfilled]: (state, action) => {
-			state.organizationUsers = action.payload.data;
-		},
-		[retrieveOrganizationUsers.rejected]: (state, action) => {},
-		[retrieveOrganizationChannelUsers.pending]: (state) => {},
-		[retrieveOrganizationChannelUsers.fulfilled]: (state, action) => {
-			state.selectedOrganizationChannelUsers = action.payload.data;
-		},
-		[retrieveOrganizationChannelUsers.rejected]: (state, action) => {},
 		[organizationChannelAddUser.pending]: (state) => {},
 		[organizationChannelAddUser.fulfilled]: (state, action) => {},
 		[organizationChannelAddUser.rejected]: (state, action) => {},
+		[createOrganizationChannel.pending]: (state) => {},
+		[createOrganizationChannel.fulfilled]: (state, action) => {
+			if (state.defaultOrganization) {
+				state.defaultOrganizationChannels.push(action.payload.data);
+			} else {
+				state.defaultOrganizationChannels = action.payload.data;
+			}
+		},
+		[createOrganizationChannel.rejected]: (state, action) => {},
+		[createOrganization.pending]: (state) => {},
+		[createOrganization.fulfilled]: (state, action) => {
+			state.defaultOrganization = action.payload.data;
+			if (state.organizations) {
+				state.organizations.push(action.payload.data);
+			} else {
+				state.organizations = action.payload.data;
+			}
+			localStorage.setItem(
+				"defaultOrganization",
+				JSON.stringify(action.payload.data)
+			);
+		},
+		[createOrganization.rejected]: (state, action) => {},
+		[retrieveSingleOrganization.pending]: (state) => {},
+		[retrieveSingleOrganization.fulfilled]: (state, action) => {
+			state.defaultOrganization = action.payload;
+			console.log(action.payload);
+			localStorage.setItem(
+				"defaultOrganization",
+				JSON.stringify(action.payload)
+			);
+		},
+		[retrieveSingleOrganization.rejected]: (state, action) => {},
 	},
 });
 

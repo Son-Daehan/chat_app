@@ -1,29 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-	retrieveOrganizationUsers,
-	setDefaultOrganization,
-} from "../../redux/reducers/OrganizationSlice";
-import CreateOrganizationChannelModal from "./modal/CreateOrganizationChannelModal";
-import CreateOrganizationModal from "./modal/CreateOrganizationModal";
-import OrganizationAddUserModal from "./modal/OrganizationAddUserModal";
+import { setDefaultOrganization } from "../../redux/reducers/OrganizationSlice";
+import CreateOrganizationChannelModal from "./modal/organization_channel/CreateOrganizationChannelModal";
+import CreateOrganizationModal from "./modal/organization/CreateOrganizationModal";
 import Dropdown from "react-bootstrap/Dropdown";
-import { useEffect } from "react";
+import { setSelectedChannel } from "../../redux/reducers/ChannelSlice";
 
 const Organization = () => {
-	const { organizations, defaultOrganization, displayOrganizationSettings } =
-		useSelector((state) => state.organization);
+	const { organizations, defaultOrganization } = useSelector(
+		(state) => state.organization
+	);
 
 	const dispatch = useDispatch();
 
 	const handleSetDefaultOrganization = (organization) => {
 		dispatch(setDefaultOrganization(organization));
+		dispatch(setSelectedChannel(null));
 	};
-
-	useEffect(() => {
-		if (defaultOrganization) {
-			dispatch(retrieveOrganizationUsers(defaultOrganization.id));
-		}
-	}, [defaultOrganization]);
 
 	return (
 		<>
@@ -35,18 +27,13 @@ const Organization = () => {
 								handleSetDefaultOrganization(organization);
 							}}
 						>
-							{organization.organization.organization_name}
+							{organization.organization_name}
 						</Dropdown.Item>
 					);
 				})}
 			<hr />
 			{defaultOrganization && (
 				<div>
-					<Dropdown.Item>
-						<OrganizationAddUserModal
-							selectedOrganizationID={defaultOrganization.id}
-						/>
-					</Dropdown.Item>
 					<Dropdown.Item>
 						<CreateOrganizationChannelModal
 							selectedOrganizationID={defaultOrganization.id}

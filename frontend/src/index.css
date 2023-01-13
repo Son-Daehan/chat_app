@@ -78,3 +78,16 @@ button {
 ::placeholder{
     color: rgba(189, 186, 186, 0.809);
 }
+
+/* change background color when modal pops up */
+/* .modal-backdrop {
+    background-color: green;
+  } */
+
+
+
+
+  ::-webkit-scrollbar{
+    width:5px;
+    background-color: rgba(49, 48, 48, 0.303);
+}

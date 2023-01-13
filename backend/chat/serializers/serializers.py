@@ -2,19 +2,18 @@ from rest_framework import serializers
 from ..models import (
     User,
     Organization,
-    UserOrganization,
     OrganizationChannel,
-    OrganizationChannelUser,
+    OrganizationMember,
+    OrganizationChannelMember,
 )
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     profile_img = serializers.ImageField(use_url=True)
 
     class Meta:
         model = User
         fields = [
-            "url",
             "id",
             "username",
             "email",
@@ -25,29 +24,39 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
-    members = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+class OrganizationMemberSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = OrganizationMember
+        fields = ["id", "user"]
+
+
+class OrganizationChannelMemberSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = OrganizationChannelMember
+        fields = ["id", "channel", "user"]
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(read_only=True)
+    members = UserSerializer(many=True, read_only=True)
+    channels = serializers.PrimaryKeyRelatedField(
+        many=True, read_only=True, source="channels.all"
+    )
 
     class Meta:
         model = Organization
-        fields = ["url", "id", "organization_name", "organization_owner", "members"]
+        fields = ["id", "organization_name", "owner", "members", "channels"]
 
 
-class OrganizationChannelSerializer(serializers.HyperlinkedModelSerializer):
-    members = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+class OrganizationChannelSerializer(serializers.ModelSerializer):
+    organization = OrganizationSerializer(read_only=True)
+    owner = UserSerializer(read_only=True)
+    members = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = OrganizationChannel
-        fields = ["url", "id", "channel_name", "is_private", "organization", "members"]
-
-
-class UserOrganizationSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = UserOrganization
-        fields = ["url", "id", "organization", "user"]
-
-
-class OrganizationChannelUserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = OrganizationChannelUser
-        fields = ["url", "id", "organization_channel", "user"]
+        fields = ["id", "channel_name", "organization", "owner", "members"]

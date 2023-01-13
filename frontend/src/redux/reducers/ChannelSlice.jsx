@@ -5,9 +5,24 @@ const initialState = {
 	// loading: false,
 	selectedChannelName: null,
 	selectedChannelSocket: null,
-	defaultChannel: JSON.parse(localStorage.getItem("defaultChannel")) || null,
 	selectedChannel: null,
 };
+
+// get all channels on the selected organization
+export const updateSelectedChannel = createAsyncThunk(
+	"updateSelectedChannel",
+	async (channelID, { rejectWithValue }) => {
+		try {
+			const response = await axios.get(
+				`/api/organization_channel/channels/${channelID}/`
+			);
+
+			return response.data.data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
 
 // export const connectChannel = createAsyncThunk(
 // 	"connectChannel",
@@ -31,7 +46,13 @@ const ChannelSlice = createSlice({
 			state.selectedChannel = action.payload;
 		},
 	},
-	// extraReducers: {
+	extraReducers: {
+		[updateSelectedChannel.pending]: (state) => {},
+		[updateSelectedChannel.fulfilled]: (state, action) => {
+			state.selectedChannel = action.payload;
+		},
+		[updateSelectedChannel.rejected]: (state, action) => {},
+	},
 	// 	[connectChannel.pending]: (state) => {
 	// 		console.log("pending works");
 	// 		// state.loading = true;

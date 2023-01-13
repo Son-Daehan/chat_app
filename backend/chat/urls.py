@@ -4,28 +4,44 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path("chat/channels/", views.create_channel),
-    path("chat/channels/add_user/", views.channel_add_user),
-    path("chat/user_channels/", views.user_channels),
-    path("chat/user_channels/organization/", views.user_organization_channels),
-    path("organizations/", views.manage_organization),
-    path(
-        "organization/add_user/<int:organization_id>/", views.manage_organization_user
-    ),
-    path("organization/channel/", views.manage_organization_channel),
-    path(
-        "organization/channel/<int:organization_id>/", views.manage_organization_channel
-    ),
-    path(
-        "organization/channel/users/<int:organization_channel_id>/",
-        views.manage_organization_channel_users,
-    ),
     path("chat/chat_log/", views.manage_chat_log, name="items"),
     path("chat/chat_log/<str:room_name>/", views.chat_log, name="chat_log"),
-    path("accounts/", views.accounts),
-    path("accounts/login/", views.accounts_login),
-    path("accounts/logout/", views.accounts_logout),
     path("accounts/image_upload/", views.image_upload),
+    path("login/", views.user_login, name="login"),
+    path("logout/", views.user_logout, name="logout"),
+    # user
+    path("users/", views.users_manage, name="user_list_create"),
+    path("users/<int:pk>/", views.user_manage),
+    path("user/organizations/", views.user_organizations_manage),
+    # organization
+    path("organizations/", views.organizations_manage),
+    path("organizations/<int:organization_id>/", views.organization_manage),
+    # organization members
+    path(
+        "organization_members/<int:organization_id>/", views.organization_members_manage
+    ),
+    path(
+        "organization_members/<int:organization_id>/<int:user_id>/",
+        views.organization_member_manage,
+    ),
+    # organization channel
+    path(
+        "organization_channels/<int:organization_id>/",
+        views.organization_channels_manage,
+    ),
+    path(
+        "organization_channel/channels/<int:channel_id>/",
+        views.organization_channel_manage,
+    ),
+    # organization channel members
+    path(
+        "organization_channel_members/<int:channel_id>/",
+        views.organization_channel_members_manage,
+    ),
+    path(
+        "organization_channel_member/<int:channel_id>/<int:user_id>/",
+        views.organization_channel_member_manage,
+    ),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)

@@ -1,0 +1,162 @@
+[
+	{
+		"model": "chat.user",
+		"pk": 1,
+		"fields": {
+			"first_name": "sam",
+			"last_name": "kim",
+			"username": "kimster",
+			"email": "kim@gmail.com",
+			"password": "password"
+		}
+	},
+	{
+		"model": "chat.user",
+		"pk": 2,
+		"fields": {
+			"first_name": "John",
+			"last_name": "Doe",
+			"username": "Jonathon",
+			"email": "john@gmail.com",
+			"password": "password"
+		}
+	},
+	{
+		"model": "chat.user",
+		"pk": 3,
+		"fields": {
+			"first_name": "Dan",
+			"last_name": "Smith",
+			"username": "Danny",
+			"email": "Dan@gmail.com",
+			"password": "password"
+		}
+	},
+	{
+		"model": "chat.user",
+		"pk": 4,
+		"fields": {
+			"first_name": "Rich",
+			"last_name": "Lee",
+			"username": "Lee",
+			"email": "lee@gmail.com",
+			"password": "password"
+		}
+	},
+	{
+		"model": "chat.user",
+		"pk": 5,
+		"fields": {
+			"first_name": "Paul",
+			"last_name": "Kim",
+			"username": "Wally",
+			"email": "wallster@gmail.com",
+			"password": "password"
+		}
+	},
+
+	{
+		"model": "chat.organizationowner",
+		"pk": 1,
+		"fields": {
+			"user": 1
+		}
+	},
+	{
+		"model": "chat.organization",
+		"pk": 1,
+		"fields": {
+			"organization_name": "Coding Camp",
+			"owner": 1,
+			"members": [1, 2, 3, 4, 5]
+		}
+	},
+
+	{
+		"model": "chat.organizationowner",
+		"pk": 2,
+		"fields": {
+			"user": 2
+		}
+	},
+	{
+		"model": "chat.organization",
+		"pk": 2,
+		"fields": {
+			"organization_name": "Richmond",
+			"owner": 2,
+			"members": [3, 4, 5]
+		}
+	},
+
+	{
+		"model": "chat.organizationowner",
+		"pk": 3,
+		"fields": {
+			"user": 3
+		}
+	},
+	{
+		"model": "chat.organization",
+		"pk": 3,
+		"fields": {
+			"organization_name": "Crown Org",
+			"owner": 3,
+			"members": [1, 2, 5]
+		}
+	},
+
+	{
+		"model": "chat.organizationowner",
+		"pk": 4,
+		"fields": {
+			"user": 1
+		}
+	},
+	{
+		"model": "chat.organization",
+		"pk": 3,
+		"fields": {
+			"organization_name": "Sam Org",
+			"owner": 4,
+			"members": [1, 2, 5]
+		}
+	},
+
+	{
+		"model": "chat.organizationchannel",
+		"pk": 1,
+		"fields": {
+			"channel_name": "channel_one",
+			"organization": 1,
+			"members": [1, 2, 3, 4, 5]
+		}
+	},
+	{
+		"model": "chat.organizationchannel",
+		"pk": 2,
+		"fields": {
+			"channel_name": "channel_one",
+			"organization": 2,
+			"members": [3, 4]
+		}
+	},
+	{
+		"model": "chat.organizationchannel",
+		"pk": 3,
+		"fields": {
+			"channel_name": "channel_one",
+			"organization": 3,
+			"members": [1, 2]
+		}
+	},
+	{
+		"model": "chat.organizationchannel",
+		"pk": 4,
+		"fields": {
+			"channel_name": "channel_one",
+			"organization": 3,
+			"members": [2, 5]
+		}
+	}
+]
