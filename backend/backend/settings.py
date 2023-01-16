@@ -139,8 +139,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "chat.User"
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
+    "http://44.212.9.213/",
+    "http://44.212.9.213:8000/",
 ]
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
