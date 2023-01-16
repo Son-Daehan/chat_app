@@ -8,6 +8,8 @@ import {
 	retrieveSingleOrganization,
 } from "../../../../redux/reducers/OrganizationSlice";
 import { IoMdPersonAdd } from "react-icons/io";
+import { useEffect } from "react";
+import { retrieveAllUsers } from "../../../../redux/reducers/AuthSlice";
 
 const OrganizationAddUserModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
@@ -16,6 +18,9 @@ const OrganizationAddUserModal = () => {
 	const [searchInput, setSearchInput] = useState("");
 
 	const { defaultOrganization } = useSelector((state) => state.organization);
+	const [filteredAllUsers, setFilteredAllUsers] = useState(null);
+	const { allUsers } = useSelector((state) => state.user);
+	const [queryUsers, setQueryUsers] = useState(null);
 
 	const dispatch = useDispatch();
 
@@ -37,10 +42,48 @@ const OrganizationAddUserModal = () => {
 		}
 	};
 
+	const filterAllUsers = () => {
+		if (allUsers) {
+			let filteredUsers = allUsers.filter((user) => {
+				let filteredUser = defaultOrganization.members.find(
+					(userInOrganization) => userInOrganization.id === user.id
+				);
+				return !filteredUser;
+			});
+
+			setFilteredAllUsers(filteredUsers);
+			setQueryUsers(filteredUsers);
+		}
+	};
+
+	const searchAllUsers = () => {
+		const response = filteredAllUsers.filter((user) =>
+			user.username.includes(searchInput)
+		);
+		setQueryUsers(response);
+	};
+
+	useEffect(() => {
+		if (show) {
+			dispatch(retrieveAllUsers());
+		}
+	}, [show]);
+	useEffect(() => {
+		filterAllUsers();
+	}, [allUsers]);
+
+	useEffect(() => {
+		if (queryUsers === null || queryUsers === "") {
+			setQueryUsers(filteredAllUsers);
+		} else {
+			searchAllUsers();
+		}
+	}, [searchInput]);
+
 	return (
 		<>
 			<Button className="me-2 mb-2" onClick={() => handleShow("md-down")}>
-				<IoMdPersonAdd style={{ height: "25px", width: "25px" }} />
+				<IoMdPersonAdd style={{ height: "20px", width: "20px" }} />
 			</Button>
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
 				<div className="custom-modal">
@@ -62,6 +105,16 @@ const OrganizationAddUserModal = () => {
 							</Button>
 						</form>
 						<hr />
+						{queryUsers &&
+							queryUsers.map((user) => (
+								<div className="organization-channel-add-modal-user-container">
+									<div>
+										{user.first_name} {user.last_name}
+									</div>
+									<div>{user.email}</div>
+									<button></button>
+								</div>
+							))}
 					</Modal.Body>
 				</div>
 			</Modal>

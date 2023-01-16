@@ -58,13 +58,17 @@ const OrganizationChannelManagementModal = () => {
 
 	return (
 		<>
-			<Button className="me-2 mb-2" onClick={() => handleShow("md-down")}>
+			<Button
+				className="me-2 mb-2 organization-channel-management-container"
+				onClick={() => handleShow("md-down")}
+			>
 				<IoIosPeople
 					style={{
-						height: "45px",
-						width: "45px",
+						height: "25px",
+						width: "25px",
 					}}
 				/>
+				{selectedChannel?.members?.length}
 			</Button>
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
 				<div className="custom-modal">

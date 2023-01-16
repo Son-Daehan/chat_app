@@ -54,7 +54,7 @@ const OrganizationManagementModal = () => {
 	return (
 		<>
 			<Button className="me-2 mb-2" onClick={() => handleShow("md-down")}>
-				<FaUsersCog style={{ height: "25px", width: "25px" }} />
+				<FaUsersCog style={{ height: "20px", width: "20px" }} />
 			</Button>
 			<Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)}>
 				<div className="custom-modal">

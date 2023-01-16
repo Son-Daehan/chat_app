@@ -7,6 +7,7 @@ import { organizationChannelAddUser } from "../../../../redux/reducers/Organizat
 import { IoMdPersonAdd } from "react-icons/io";
 import "../modal.css";
 import { updateSelectedChannel } from "../../../../redux/reducers/ChannelSlice";
+import { useEffect } from "react";
 
 const OrganizationChannelAddUserModal = () => {
 	const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
@@ -39,8 +40,8 @@ const OrganizationChannelAddUserModal = () => {
 			<Button className="me-2 mb-2" onClick={() => handleShow("md-down")}>
 				<IoMdPersonAdd
 					style={{
-						height: "45px",
-						width: "45px",
+						height: "25px",
+						width: "25px",
 					}}
 				/>
 			</Button>

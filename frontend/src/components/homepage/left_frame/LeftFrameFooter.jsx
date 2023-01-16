@@ -26,8 +26,10 @@ const LeftFrameFooter = () => {
 		<div className="homepage-left-frame-footer-container homepage-footer-container">
 			<div className="homepage-left-frame-footer-wrapper">
 				<div className="homepage-left-frame-footer-user-icon-container">
-					{defaultOrganization?.members?.length}
-					<OrganizationManagementModal />
+					<div className="homepage-left-frame-footer-user-icon-left-wrapper">
+						<OrganizationManagementModal />
+						{defaultOrganization?.members?.length}
+					</div>
 					<OrganizationAddUserModal />
 				</div>
 				<ManageProfileModal />
@@ -37,8 +39,8 @@ const LeftFrameFooter = () => {
 				>
 					<AiOutlineLogout
 						style={{
-							height: "35px",
-							width: "35px",
+							height: "25px",
+							width: "25px",
 						}}
 					/>
 				</div>

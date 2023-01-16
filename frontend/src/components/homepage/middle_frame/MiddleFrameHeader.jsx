@@ -12,9 +12,8 @@ const MiddleFrameHeader = () => {
 				<h2>{selectedChannel && selectedChannel.channel_name}</h2>
 			</div>
 			<div className="homepage-middle-frame-channel-user-container">
-				{selectedChannel?.members?.length}
-
 				<OrganizationChannelManagementModal />
+
 				<OrganizationChannelAddUserModal />
 			</div>
 		</div>
